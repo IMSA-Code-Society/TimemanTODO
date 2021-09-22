@@ -32,6 +32,7 @@ const assignment = prompt("Assignment")
 let [hwCat, _] = findMostSimilar(assignment, hwTypeVocab);
 // 'homework' synonyms
 if (hwCat == 'worksheet') hwCat = 'homework';
+// TODO: research -> read
 console.log(hwCat);
 console.log("priority:", Math.min(count(assignment, /!/g), 3));
 
