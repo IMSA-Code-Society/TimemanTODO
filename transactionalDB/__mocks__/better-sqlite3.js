@@ -1,6 +1,6 @@
-import Database from "better-sqlite3"
+const Database = require("better-sqlite3");
 
-export default class MockedDatabase extends Database {
+module.exports = class MockedDatabase extends Database {
     constructor(_, options) {
         super(":memory:", options);
     }

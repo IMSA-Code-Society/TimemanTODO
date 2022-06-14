@@ -2,7 +2,8 @@ import "fake-indexeddb/auto";
 import {unlinkSync} from "fs";
 import server from "./server"
 import socket from "./client";
-import fetch from "supertest";
+import supertest from "supertest";
+const api = supertest(server.server);
 
 
 beforeAll(() => {
@@ -24,17 +25,29 @@ afterAll(async () => {
 
 
 describe("Transactional database server", () => {
-    test("Incorrect parameters", done => {
-        fetch(server.server)
+    test("Incorrect parameters", async () => {
+        const endpt = api.get("/getSince")
+        await Promise.all([
+          // I'm not too big a fan of Jest because if one fails, it doesn't tell me which
+          endpt.expect(400),
+          endpt.query({head: 1.1, auth: "foo"}).expect(400),
+        ]);
+        // Fastify has its own testing methods under .inject, but they are more verbose ex:
+        /*const res = await server.inject()
           .get("/getSince")
+          .end();
+        expect(res.statusCode).toBe(400);*/
+    });
+    test("Requested HEAD cannot be ahead of server HEAD", done => {
+        api
+          .get("/getSince")
+          .query({head: 100, auth: "yay"})
           .expect(400, done);
     });
 });
 
 // TODO: why does empty suite take 7 seconds to run?
 describe("Transactional database client", () => {
-    test("Connect to websocket", () => {
-        expect(1+1).toBe(2);//
-    });
+    test.todo("Connect to websocket");
     test.todo("Disconnect from websocket");
 });

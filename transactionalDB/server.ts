@@ -1,27 +1,32 @@
-/*/region Copied from `fastify-socket.io` because it was having version and ES module issues
-import { Server } from 'socket.io'
-declare module 'fastify' {
-  interface FastifyInstance {
-    io: Server
-  }
-}
-
-import fp from "fastify-plugin"
-const socketioServer = fp(async function (fastify, opts) {
-  fastify.decorate('io', new Server(fastify.server, opts))
-  fastify.addHook('onClose', (fastify, done) => {
-    fastify.io.close()
-    done()
-  })
-}, { fastify: '4.x' })
-//endregion*/
-
 import fastify from "fastify";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 // If there's an error about version mismatch, update or manually change to >=3.x
 import socketioServer from "fastify-socket.io"
-import sqlite3 from "better-sqlite3"
+import Database from "better-sqlite3"
+import type BetterSqlite3 from "better-sqlite3";
+import fp from "fastify-plugin"
+import * as fs from "fs";
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    db: BetterSqlite3.Database
+  }
+}
+
+const databasePlugin = fp(async function (fastify, opts) {
+  fastify.decorate('db', new Database("db.sqlite"));
+  // Run database migrations
+  const schemaVersion = fastify.db.pragma("user_version", {simple: true});
+  if (schemaVersion === 0) {
+      fastify.db.exec(fs.readFileSync("migrate/0.sql", "utf8"));
+      fastify.db.pragma("user_version = 1");
+  }
+  fastify.addHook('onClose', (fastify, done) => {
+    fastify.db.close();
+    done()
+  })
+}, { fastify: '4.x' })
 
 const app = fastify({
   ajv: {
@@ -32,6 +37,7 @@ const app = fastify({
   },
 }).withTypeProvider<TypeBoxTypeProvider>();
 app.register(socketioServer);
+app.register(databasePlugin);
 // app.io cannot be called in the global scope, contrary to what [the docs](https://github.com/socketio/socket.io#in-conjunction-with-fastify) say
 app.ready(err => {
   if (err) throw err
@@ -52,15 +58,3 @@ app.get("/getSince", {
 });
 
 export default app;
-
-/*import express from "express";
-export const app = express();
-
-// parse json request body
-app.use(express.json());
-// parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
-
-app.listen(port => {
-  console.log("Server is listening on localhost:" + port);
-});*/
