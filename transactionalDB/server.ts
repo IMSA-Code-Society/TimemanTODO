@@ -49,10 +49,7 @@ app.get("/getSince", {
     }),
   }}, (req, res) => {
     res.send(req.query);
-})
-
-// TODO: Uncomment if running standalone
-//app.listen({port: 3000});
+});
 
 export default app;
 
