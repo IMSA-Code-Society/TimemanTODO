@@ -7,6 +7,7 @@ import Database from "better-sqlite3"
 import type BetterSqlite3 from "better-sqlite3";
 import fp from "fastify-plugin"
 import * as fs from "fs";
+import {DatabaseSchema} from "./common";
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -54,7 +55,20 @@ app.get("/getSince", {
       auth: Type.String(),
     }),
   }}, (req, res) => {
-    res.send(req.query);
+    //const HEAD = app.db.prepare("SELECT MAX(id) FROM transactions WHERE uid = ?").get()
+    const data = app.db.prepare("SELECT * FROM transactions WHERE uid = ? AND id > ?").all(req.query.auth, req.query.head) as DatabaseSchema[];
+    for (const row of data) {
+      delete row.uid;
+      row.payload = {
+        id: row.payloadId,
+        key: row.payloadKey,
+        value: row.payloadValue,
+      };
+      delete row.payloadId;
+      delete row.payloadKey;
+      delete row.payloadValue;
+    }
+    res.send(data);
 });
 
 export default app;

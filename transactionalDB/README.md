@@ -21,6 +21,7 @@ A transaction has the following structure:
 ```typescript
 interface Transaction {
     id: number  // canonical int ID maintained by server. Can be null on client if offline
+    uid: number  // The user that the transaction belongs to
     timestamp: number  // ms since epoch
     database: string  // the name of the database to which the payload belongs
     operation: "create" | "update" | "delete"
