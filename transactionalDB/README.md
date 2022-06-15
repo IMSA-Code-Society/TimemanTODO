@@ -39,3 +39,8 @@ interface Transaction {
 // Project-specific stuff
 owner: string  // user ID
 project: number  // ID of the 
+
+### Technical challenges
+Since the server is written in typescript and used ES modules, there is no easy way to run and watch yet. Check back with `node-dev` package if support ever improves.
+
+I decided against using pouch db (which uses [couchDB](https://docs.couchdb.org/en/stable/replication/conflicts.html#replication-conflicts)) because it didn't seem to fit my syncing needs
