@@ -9,7 +9,7 @@ To keep clients in sync, this transactional database keeps track of when changes
 By default, there is no enforced schema, meaning that all typing stays centralized in the client codebase
 
 There are 3 endpoints:
-- GET `/getSince?head=10&auth=token` -> `[transactions]`: when client is coming online after previously being offline. The server will send back all transactions that happened since `head`
+- GET `/getSince?head=10&auth=token` -> `[lastID, transactions]`: when client is coming online after previously being offline. The server will send back all transactions that happened since `head`
 - POST `/submit` `{transaction}` -> new HEAD (int id): used during normal online operation
 - POST `/batch` `[transactions]` -> \[ids]: used when the client is coming online and made offline changes
 
@@ -39,9 +39,29 @@ interface Transaction {
 
 // Project-specific stuff
 owner: string  // user ID
-project: number  // ID of the 
+project: number  // ID of the
+
+### Updates
+The client will actually need to hold two pointers, 1 with the ID Of the last synced transaction, and another with the server's last fetched ID. Under this new model, the client and server IDs are not the same, but are instead incremented in the order in which they are received. This way, clients don't have to wait for the canonical ID from the server. In addition, the initial sender doesn't need to wait for the server response to change the IDs of its own transactions, iterate through them to change the IDs; Instead, it can just move its sync pointer. This fits more in line with the transactional idea that once a transaction is committed, it is not changed. Also, `/submit` and `/batch` have been unified under WEBSOCKET `/submit [transactions]`
+
+Since all the nodes connected are peers, I might switch out web socket with web RTC. I was thinking this would decrease the load on my server, but webRTC still requires a websocket signaling server. This might also allow a client to act as a server if one client needs to update his database.
+
+I decided that lexicacally merging database entries is undesirable because of 1: complexity and 2: producing bad results. The first algorithm I "tested" tried to find a word in common and combined with first & second half at that word. Here are the results:
+
+| received | time | msg                          |
+|----------|------|------------------------------|
+| 0        | 1    | Submit thesis draft due TBA  |
+| 2        | 2    | Tuesday: submit thesis draft |
+| 3        | 3    | Submit english draft tuesday |
+
+times 1 & 2 combined into "Submit Tuesday: submit thesis draft due TBA"
+and times 1 & 2 & 3 combined into "Tuesday: submit english/thesis draft tuesday"
+
+My next idea was to take the diff between the first and last and apply that from the 2nd to the 3rd. Unfortunately, that had a similar result: "Tuesday: submit english draft tuesday" and I realized that if the message completely changed, information could be lost
 
 ### Technical challenges
 Since the server is written in typescript and used ES modules, there is no easy way to run and watch yet. Check back with `node-dev` package if support ever improves.
 
 I decided against using pouch db (which uses [couchDB](https://docs.couchdb.org/en/stable/replication/conflicts.html#replication-conflicts)) because it didn't seem to fit my syncing needs
+
+FRIENDSHIP ENDED WITH JEST! This whole project has been nothing but config & troubleshooting tools up to this point, & I'm sick of it >:(
