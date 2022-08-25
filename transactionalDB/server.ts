@@ -8,7 +8,7 @@ import type BetterSqlite3 from "better-sqlite3";
 import fp from "fastify-plugin"
 import * as fs from "fs";
 import {Transaction} from "./common";
-import {autoSchedule} from "../Truth/middleware"
+import {autoSchedule} from "../Truth/schedule"
 
 declare module 'fastify' {
   interface FastifyInstance {

@@ -6,7 +6,7 @@ export interface Transaction {
   operation: "create" | "update" | "delete"
 
   // id and key not needed if operation is "create"
-  payloadId?: number;  // The name of the property to change
+  payloadId?: number;  // The id of the property to change
   payloadKey?: string;  // The name of the property to change. Represent nested properties with `.` like "car.wheel[0]" // TODO see my daydream implementation
   payloadValue: string;
 }
