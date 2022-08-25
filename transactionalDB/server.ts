@@ -8,6 +8,7 @@ import type BetterSqlite3 from "better-sqlite3";
 import fp from "fastify-plugin"
 import * as fs from "fs";
 import {Transaction} from "./common";
+import {autoSchedule} from "../Truth/middleware"
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -89,6 +90,25 @@ app.get("/getSince", {
     }
     (data as [number, ...Transaction[]]).unshift(head);
     res.send(data);
+});
+
+const ClassData = Type.Object({
+  classId: Type.Integer(),
+  className: Type.String(),
+  teacherName: Type.String(),
+  roomName: Type.String(),
+  periods: Type.Array(Type.Tuple([Type.Integer(), Type.Integer()])),
+  endDate: Type.String(),
+});
+
+app.get("/autoSchedule", {
+  schema: {
+    querystring: Type.Object({
+      table: Type.String(),
+    }),
+    response: ClassData,
+  }}, (req, res) => {
+  res.send(autoSchedule(req.query.table));
 });
 
 export default app;
