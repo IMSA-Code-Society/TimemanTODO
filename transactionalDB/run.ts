@@ -1,9 +1,11 @@
-import app from "./server.js"
+import app from "./server"
 import fastifyStatic from "@fastify/static";
 import * as url from 'url';
 
 app.register(fastifyStatic, {
-  root: url.fileURLToPath(new URL('./..', import.meta.url))
+  root: __dirname,
 });
 
-console.log("server listening at", await app.listen({port: 3000}));
+app.listen({port: 3000}).then(port =>
+  console.log("server listening at", port)
+);

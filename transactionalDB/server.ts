@@ -106,7 +106,7 @@ app.get("/autoSchedule", {
     querystring: Type.Object({
       table: Type.String(),
     }),
-    response: ClassData,
+    //response: ClassData,
   }}, (req, res) => {
   res.send(autoSchedule(req.query.table));
 });
