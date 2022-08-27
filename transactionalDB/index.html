@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Transactional Database</title>
-    <script src="dist/client.js" type="module"></script>
+    <script src="dist/index.js" type="module"></script>
 </head>
 <body>
+<!--
+id: number  // canonical int ID maintained by server. Can be null on client if offline
+  uid: number  // The user that the transaction belongs to
+  timestamp: number  // ms since epoch
+  database: string  // the name of the database to which the payload belongs
+  operation: "create" | "update" | "delete"
 
+  // id and key not needed if operation is "create"
+  payloadId?: number;  // The id of the property to change
+  payloadKey?: string;  // The name of the property to change. Represent nested properties with `.` like "car.wheel[0]" // TODO see my daydream implementation
+  payloadValue: string;
+-->
+    <form style="display: flex; flex-direction: column">
+        <label>Database <input name="database" placeholder="name"/></label>
+        <div>
+            Operation
+            <label><input type="radio" name="operation" value="delete"> create</label>
+            <label><input type="radio" name="operation" value="delete"> update</label>
+            <label><input type="radio" name="operation" value="delete"> delete</label>
+        </div>
+    </form>
 </body>
 </html>

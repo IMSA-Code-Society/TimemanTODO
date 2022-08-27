@@ -82,12 +82,9 @@ app.get("/getSince", {
       auth: Type.String(),
     }),
   }}, (req, res) => {
-    const data = app.db.prepare("SELECT * FROM transactions WHERE uid = ? AND id > ?").all(req.query.auth, req.query.head) as Transaction[];
-    const head = data[data.length - 1].id;
-    for (const row of data) {
-      delete row.uid;
-      delete row.id;
-    }
+    const data = app.db.prepare("SELECT id, timestamp, database, operation, payloadId, payloadKey, payloadValue FROM transactions WHERE uid = ? AND id > ?").all(req.query.auth, req.query.head) as Transaction[];
+    const head = data.at(-1)?.id;
+    data.forEach(row => delete row.id);
     (data as [number, ...Transaction[]]).unshift(head);
     res.send(data);
 });
@@ -106,7 +103,7 @@ app.get("/autoSchedule", {
     querystring: Type.Object({
       table: Type.String(),
     }),
-    //response: ClassData,
+    response: {200: Type.Array(ClassData)},
   }}, (req, res) => {
   res.send(autoSchedule(req.query.table));
 });
