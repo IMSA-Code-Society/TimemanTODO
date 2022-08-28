@@ -7,7 +7,7 @@ import Database from "better-sqlite3"
 import type BetterSqlite3 from "better-sqlite3";
 import fp from "fastify-plugin"
 import * as fs from "fs";
-import {Transaction} from "./common";
+import {Transaction, ServerTransaction} from "./common";
 import {autoSchedule} from "../Truth/schedule"
 
 declare module 'fastify' {
@@ -30,14 +30,15 @@ const databasePlugin = fp(async function (fastify, opts) {
   })
 }, { fastify: '4.x' })
 
-function addTransactions(transactions: Transaction[]): number {
-  const insert = app.db.prepare('INSERT INTO transactions (uid, timestamp, database, operation, payloadId, payloadKey, payloadValue) VALUES (@uid, @timestamp, @database, @operation, @payloadId, @payloadKey, @payloadValue)');
+function addTransactions(auth: number | string, transactions: Transaction[]): number {
+  console.log("Adding transactions", transactions);
+  const insert = app.db.prepare('INSERT INTO transactions (uid, timestamp, database, operation, payloadId, payloadValue) VALUES (@uid, @timestamp, @database, @operation, @payloadId, @payloadValue)');
   let max = 0;
   app.db.transaction(() => {
     for (const transaction of transactions)
       // TODO: if operation = "delete", remove all previous history entries (same payloadId && uid)
       // TODO: is there a better way to get last id? (without making another request?)
-      max = Number(insert.run(transaction).lastInsertRowid);
+      max = Number(insert.run({uid: auth, ...transaction}).lastInsertRowid);
   })();
   return max;
 }
@@ -58,15 +59,15 @@ app.ready(err => {
   if (err) throw err
   app.io.on("connection", (socket) => {
     console.info('Socket connected!', socket.id)
-    socket.on("submit", (auth: string, transactions: Transaction[], callback) => {
+    socket.on("submit", (auth: string, transactions: Transaction[], reply) => {
       try {
-        callback({statusCode: 200, message: addTransactions(transactions)});
+        reply({statusCode: 200, message: addTransactions(auth, transactions)});
         // TODO: separate personal from shared tasks
         // TODO: prevent clients from submitting tasks with uids that they don't have permission to
         socket.to(auth).emit("submit", transactions);
       } catch (e) {
         if (e.code !== "SQLITE_ERROR") throw e;
-        callback({statusCode: 400, error: "Bad Request", message: "transaction is probably missing fields"})
+        reply({statusCode: 400, error: "Bad Request", message: "transaction is probably missing fields"})
       }
     });
   });
@@ -82,10 +83,10 @@ app.get("/getSince", {
       auth: Type.String(),
     }),
   }}, (req, res) => {
-    const data = app.db.prepare("SELECT id, timestamp, database, operation, payloadId, payloadKey, payloadValue FROM transactions WHERE uid = ? AND id > ?").all(req.query.auth, req.query.head) as Transaction[];
+    const data = app.db.prepare("SELECT id, timestamp, database, operation, payloadId, payloadValue FROM transactions WHERE uid = ? AND id > ?").all(req.query.auth, req.query.head) as ServerTransaction[];
     const head = data.at(-1)?.id;
     data.forEach(row => delete row.id);
-    (data as [number, ...Transaction[]]).unshift(head);
+    (data as unknown as [number, ...Transaction[]]).unshift(head);//
     res.send(data);
 });
 

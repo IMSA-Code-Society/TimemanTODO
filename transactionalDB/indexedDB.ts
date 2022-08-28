@@ -2,6 +2,7 @@
 // Adapted from https://stackoverflow.com/a/61108377
 type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
+// TODO: maybe replace CustomSchema with mapped type?
 export interface TypedDatabase<Stores extends Record<string, CustomSchema>> extends IDBDatabase {
     // T[number] converts the array into a literal string union
     transaction<T extends (keyof Stores)[] | keyof Stores, Mode extends IDBTransactionMode="readonly">(storeNames: T extends (keyof Stores)[] ? readonly [...T] : T, mode?: Mode): TypedTransaction<Pick<Stores, T extends (keyof Stores)[] ? T[number]: T>, Mode>
@@ -19,6 +20,10 @@ interface TypedTransaction<Stores extends Record<string, CustomSchema>, Mode ext
 interface CustomSchema {
     id: any;
 }
+// TODO: store data like primary key & indexes
+// export type CustomSchema<Wrapped=object, PrimaryKey extends string="id"> = Wrapped & {
+//     [key in PrimaryKey]: any
+// }
 
 interface ReadonlyCustomStore<Schema extends CustomSchema> extends IDBObjectStore {
     add(value: never, key?: IDBValidKey): IDBRequest<IDBValidKey>;

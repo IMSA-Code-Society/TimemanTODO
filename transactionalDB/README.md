@@ -64,3 +64,5 @@ My next idea was to take the diff between the first and last and apply that from
 I decided against using pouch db (which uses [couchDB](https://docs.couchdb.org/en/stable/replication/conflicts.html#replication-conflicts)) because it didn't seem to fit my syncing needs. Same for Dexie.js, which is an unnecessary wrapper for pouch, especially since svelte already provides reactivity. Also, couchDB replication doesn't resolve conflicts like I would like (it treats the whole document as one entity, so if multiple properties change on the same document on different disconnected clients, the conflict cannot automatically be merged). Also, multiuser auth seems like a hassle & that would mean data would be seperated across databases.
 
 FRIENDSHIP ENDED WITH JEST! This whole project has been nothing but config & troubleshooting tools up to this point, & I'm sick of it >:(
+
+Despite what the Optimization Demon says, `id` IS required on the server transaction database (but not the client)
