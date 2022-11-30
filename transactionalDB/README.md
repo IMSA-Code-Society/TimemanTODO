@@ -66,3 +66,5 @@ I decided against using pouch db (which uses [couchDB](https://docs.couchdb.org/
 FRIENDSHIP ENDED WITH JEST! This whole project has been nothing but config & troubleshooting tools up to this point, & I'm sick of it >:(
 
 Despite what the Optimization Demon says, `id` IS required on the server transaction database (but not the client)
+
+Arrays are not allowed in database because the index can change and cause conflicts. The only way it might work is if normalized (each array entry is a pointer to object), or a constraint is imposed that only allows adding/deleting (would search for literal value). Or, if I store objects in the array, I [can't query the containing object](https://stackoverflow.com/a/36926501)

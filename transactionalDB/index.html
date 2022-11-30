@@ -18,7 +18,7 @@ id: number  // canonical int ID maintained by server. Can be null on client if o
   payloadKey?: string;  // The name of the property to change. Represent nested properties with `.` like "car.wheel[0]" // TODO see my daydream implementation
   payloadValue: string;
 -->
-    <form style="display: flex; flex-direction: column">
+    <form style="display: flex; flex-direction: column" id="form">
         <label>Database <input name="database" placeholder="name"/></label>
         <div>
             Operation
@@ -26,6 +26,9 @@ id: number  // canonical int ID maintained by server. Can be null on client if o
             <label><input type="radio" name="operation" value="delete"> update</label>
             <label><input type="radio" name="operation" value="delete"> delete</label>
         </div>
+        <label>Delete ID (if applicable)<input name="payloadId"/></label>
+        <label>JSON data with ID <textarea name="payloadValue"></textarea></label>
+        <div><input type="submit"></div>
     </form>
 </body>
 </html>

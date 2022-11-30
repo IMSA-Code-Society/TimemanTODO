@@ -86,16 +86,18 @@ async function getUnsyncedChanges() {
   })
 }
 
-async function pushLocalChanges(unsyncedLocalData: Transaction[]) {
+function pushLocalChanges(unsyncedLocalData: Transaction[]) {
   console.log("Pushing", unsyncedLocalData.length, "local changes...");
-  if (unsyncedLocalData.length > 0)
-    // TODO: The number `1` is a placeholder for authentication
-    socket.emit("submit", 1, unsyncedLocalData, (answer: WSResponse) => {
-      if (answer.error)
-        throw answer.error + ": " + answer.message;
-      localStorage.head = Math.max(answer.message, getStorage("head"));
-      localStorage.syncIndex = unsyncedLocalData.at(-1).timestamp;
-    });
+  return new Promise((res, rej) => {
+    if (unsyncedLocalData.length > 0)
+      // TODO: The number `1` is a placeholder for authentication
+      socket.emit("submit", 1, unsyncedLocalData, (answer: WSResponse) => {
+        if (answer.error)
+          throw answer.error + ": " + answer.message;
+        localStorage.head = Math.max(answer.message, getStorage("head"));
+        localStorage.syncIndex = unsyncedLocalData.at(-1).timestamp;
+      });
+  });
 }
 
 async function fetchRemoteChanges() {
@@ -153,10 +155,13 @@ export async function applyDelta(transaction: Transaction) {
 }
 
 // Must be executed after DOM is ready (TODO: confirm?)
+// TODO: make socket a class that accepts a `auth` param?
 export const socket = io();
 socket.on("connect", async () => {
-  console.log("Connected!")
-  await pushLocalChanges(await getUnsyncedChanges());
+  console.log("Connected!");
+  // This should hopefully solve the issue of conflicting head/syncIndex pointers
+  const unsyncedChanges = await getUnsyncedChanges()
   await fetchRemoteChanges();
+  await pushLocalChanges(unsyncedChanges);
   console.log("Done!");
 });

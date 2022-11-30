@@ -1,7 +1,7 @@
 export interface Transaction {
   timestamp: number  // ms since epoch, serves as id
   database: string  // the name of the database to which the payload belongs
-  operation: "create" | "update" | "delete"
+  operation: "create" | "update" | "delete" | "increment"  // inspired by https://docs.microsoft.com/en-us/azure/cosmos-db/partial-document-update
 
   // id and key not needed if operation is "create"
   payloadId?: number;  // The id of the property to change

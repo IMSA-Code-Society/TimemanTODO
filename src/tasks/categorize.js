@@ -1,10 +1,12 @@
 import jaroWinkler from './jaroWinkler.js';
 
 // TODO: everything else should beat out 'study'
-const hwTypeVocab = ['homework', 'test', 'worksheet', 'study', 'read', 'paper', 'presentation', 'lab', 'final', 'midterm', 'quiz', 'project'];
+// TODO: research & worksheet are synonyms, don't show to user
+// TODO: essay synonym for paper
+export const hwTypeVocab = ['homework', 'test', 'worksheet', 'study', 'research', 'read', 'paper', 'presentation', 'lab', 'final', 'midterm', 'quiz', 'project'];
 
-
-function findMostSimilar(target, vocab) {
+// TODO: a way to define synonyms
+export function findMostSimilar(target, vocab) {
 	let maxCat;
 	let DEBUG_maxCat;  // What the algorithm thought was most similar
 	let maxSimilarity = 0;
@@ -24,16 +26,6 @@ function findMostSimilar(target, vocab) {
 	return [maxCat, maxSimilarity];
 }
 
-function count(str, regex) {
+export function count(str, regex) {
 	return (str.match(regex) || []).length;
 }
-
-const assignment = prompt("Assignment")
-let [hwCat, _] = findMostSimilar(assignment, hwTypeVocab);
-// 'homework' synonyms
-if (hwCat == 'worksheet') hwCat = 'homework';
-// TODO: research -> read
-console.log(hwCat);
-console.log("priority:", Math.min(count(assignment, /!/g), 3));
-
-debugger;
