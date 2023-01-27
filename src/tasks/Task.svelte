@@ -53,13 +53,21 @@
 </div>
 
 <style>
+    #task {
+        border: 1px solid rgb(96, 118, 181);
+        border-radius: 8px;
+        margin: 10px;
+        background-color: #caedf3;
+        padding: 5px;
+    }
+    
     .flex {
         display: flex;
     }
 
     select {
         line-height: 1.2;
-        color: grey;
+        color: rgb(0, 0, 0);
         padding-left: 10px;
         border-radius: 50px;
         /*transition: 200ms;  Embrace the problem instead of trying to eliminate it */
@@ -67,9 +75,9 @@
 
     select:focus {
         outline: none;
-        background-color: lightgrey;
+        background-color: rgb(64, 128, 167);
     }
-    option:not(:checked) { background: #fff; }
+    option:not(:checked) { background: rgb(64, 128, 167); }
 
     #task[hasfocus=true] select {
         /*appearance: revert;*/
