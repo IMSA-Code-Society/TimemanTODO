@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@rollup/plugin-commonjs': ^17.0.0
@@ -26,7 +26,7 @@ devDependencies:
   rollup: 2.56.3
   rollup-plugin-css-only: 3.1.0_rollup@2.56.3
   rollup-plugin-livereload: 2.0.5
-  rollup-plugin-svelte: 7.1.0_rollup@2.56.3+svelte@3.42.6
+  rollup-plugin-svelte: 7.1.0_y5o3rb7d5ks5n2kmcopbljfaay
   rollup-plugin-terser: 7.0.2_rollup@2.56.3
   svelte: 3.42.6
 
@@ -127,7 +127,7 @@ packages:
       '@tensorflow/tfjs-core': ^3.6.0
     dev: false
 
-  /@tensorflow/tfjs-backend-cpu/3.9.0_@tensorflow+tfjs-core@3.9.0:
+  /@tensorflow/tfjs-backend-cpu/3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha:
     resolution: {integrity: sha512-PUv5B3wdQsA8cysk+oUhA0NqMoo/lwP8EazC/axQc8/72Dc6kU8uw/5qZtE5P4xXSqkNSlh2ifFm+8nH/6B+iA==}
     engines: {yarn: '>= 1.3.2'}
     peerDependencies:
@@ -138,13 +138,13 @@ packages:
       seedrandom: 2.4.3
     dev: false
 
-  /@tensorflow/tfjs-backend-webgl/3.9.0_@tensorflow+tfjs-core@3.9.0:
+  /@tensorflow/tfjs-backend-webgl/3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha:
     resolution: {integrity: sha512-oUnyQFF9aCnNZpul9AnJwrt8noDJdMmxgq2+e/0DpEMBERcywtVj9qkKCccMaVFsdQV1lQxpV3kjC3vbFMDWKg==}
     engines: {yarn: '>= 1.3.2'}
     peerDependencies:
       '@tensorflow/tfjs-core': 3.9.0
     dependencies:
-      '@tensorflow/tfjs-backend-cpu': 3.9.0_@tensorflow+tfjs-core@3.9.0
+      '@tensorflow/tfjs-backend-cpu': 3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha
       '@tensorflow/tfjs-core': 3.9.0
       '@types/offscreencanvas': 2019.3.0
       '@types/seedrandom': 2.4.27
@@ -153,7 +153,7 @@ packages:
       seedrandom: 2.4.3
     dev: false
 
-  /@tensorflow/tfjs-converter/3.9.0_@tensorflow+tfjs-core@3.9.0:
+  /@tensorflow/tfjs-converter/3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha:
     resolution: {integrity: sha512-ftegwQlGkyDCxZGhAVfMyWWXqpNhnyESvNY3oFAUV4eN6i/mmBTCSOQ5AX5VR5lr7PNYPWGO5sJ10Q5HeTPfgw==}
     peerDependencies:
       '@tensorflow/tfjs-core': 3.9.0
@@ -174,7 +174,7 @@ packages:
       seedrandom: 2.4.3
     dev: false
 
-  /@tensorflow/tfjs-data/3.9.0_@tensorflow+tfjs-core@3.9.0:
+  /@tensorflow/tfjs-data/3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha:
     resolution: {integrity: sha512-1/H9VlYlfEX/LflzobSB5sx3FCavWGmzqRnAyyn5ChjgCzIUa+RtJ7nYgK2+6RC2MIDgKt1jmu36mkKZrwPD3w==}
     peerDependencies:
       '@tensorflow/tfjs-core': 3.9.0
@@ -185,7 +185,7 @@ packages:
       node-fetch: 2.6.2
     dev: false
 
-  /@tensorflow/tfjs-layers/3.9.0_@tensorflow+tfjs-core@3.9.0:
+  /@tensorflow/tfjs-layers/3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha:
     resolution: {integrity: sha512-25I20Oy17YZ3y0x/pabeiN6/vai0vqMQ85/Bp0GLOpcN2kmOLcItdWOAqFW5YPI2nrTqnpNQyk9zhmIh8f6X4w==}
     peerDependencies:
       '@tensorflow/tfjs-core': 3.9.0
@@ -197,12 +197,12 @@ packages:
     resolution: {integrity: sha512-TyykXiZ6r9rMoXbQZaAkOKJJUrJHQVAjH/K6XRCPpOG//Hf15ZW97ZODskEByj77yNMw4smFUWCFhprhY2PgDQ==}
     hasBin: true
     dependencies:
-      '@tensorflow/tfjs-backend-cpu': 3.9.0_@tensorflow+tfjs-core@3.9.0
-      '@tensorflow/tfjs-backend-webgl': 3.9.0_@tensorflow+tfjs-core@3.9.0
-      '@tensorflow/tfjs-converter': 3.9.0_@tensorflow+tfjs-core@3.9.0
+      '@tensorflow/tfjs-backend-cpu': 3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha
+      '@tensorflow/tfjs-backend-webgl': 3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha
+      '@tensorflow/tfjs-converter': 3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha
       '@tensorflow/tfjs-core': 3.9.0
-      '@tensorflow/tfjs-data': 3.9.0_@tensorflow+tfjs-core@3.9.0
-      '@tensorflow/tfjs-layers': 3.9.0_@tensorflow+tfjs-core@3.9.0
+      '@tensorflow/tfjs-data': 3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha
+      '@tensorflow/tfjs-layers': 3.9.0_ev5l3ti4zkwzjbu2s5q2kuz3ha
       argparse: 1.0.10
       chalk: 4.1.2
       core-js: 3.17.3
@@ -219,6 +219,12 @@ packages:
   /@types/estree/0.0.50:
     resolution: {integrity: sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==}
     dev: true
+
+  /@types/keyv/3.1.4:
+    resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
+    dependencies:
+      '@types/node': 16.9.2
+    dev: false
 
   /@types/long/4.0.1:
     resolution: {integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==}
@@ -244,6 +250,12 @@ packages:
       '@types/node': 16.9.2
     dev: true
 
+  /@types/responselike/1.0.0:
+    resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
+    dependencies:
+      '@types/node': 16.9.2
+    dev: false
+
   /@types/seedrandom/2.4.27:
     resolution: {integrity: sha1-nbVjk33YaRX2kJK8QyWdL0hXjkE=}
     dev: false
@@ -259,6 +271,12 @@ packages:
   /abbrev/1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
     dev: false
+
+  /acorn/8.8.2:
+    resolution: {integrity: sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+    dev: true
 
   /ansi-align/3.0.0:
     resolution: {integrity: sha512-ZpClVKqXN3RGBmKibdfWzqCY4lnjEuoNzU5T0oEFpfd/z5qJHVarukridD4juLO2FXMiwUQxr9WqQtaYa8XRYw==}
@@ -495,16 +513,28 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /debug/2.6.9:
+  /debug/2.6.9_supports-color@5.5.0:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.0.0
+      supports-color: 5.5.0
     dev: false
 
-  /debug/3.2.7:
+  /debug/3.2.7_supports-color@5.5.0:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.1.3
+      supports-color: 5.5.0
     dev: false
 
   /decompress-response/3.3.0:
@@ -608,6 +638,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     optional: true
 
   /function-bind/1.1.1:
@@ -668,6 +699,8 @@ packages:
     dependencies:
       '@sindresorhus/is': 0.14.0
       '@szmarczak/http-timer': 1.1.2
+      '@types/keyv': 3.1.4
+      '@types/responselike': 1.0.0
       cacheable-request: 6.1.0
       decompress-response: 3.3.0
       duplexer3: 0.1.4
@@ -970,14 +1003,14 @@ packages:
     requiresBuild: true
     dependencies:
       chokidar: 3.5.2
-      debug: 3.2.7
+      debug: 3.2.7_supports-color@5.5.0
       ignore-by-default: 1.0.1
       minimatch: 3.0.4
       pstree.remy: 1.1.8
       semver: 5.7.1
       supports-color: 5.5.0
       touch: 3.1.0
-      undefsafe: 2.0.3
+      undefsafe: 2.0.3_supports-color@5.5.0
       update-notifier: 4.1.3
     dev: false
 
@@ -1139,7 +1172,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /rollup-plugin-svelte/7.1.0_rollup@2.56.3+svelte@3.42.6:
+  /rollup-plugin-svelte/7.1.0_y5o3rb7d5ks5n2kmcopbljfaay:
     resolution: {integrity: sha512-vopCUq3G+25sKjwF5VilIbiY6KCuMNHP1PFvx2Vr3REBNMDllKHFZN2B9jwwC+MqNc3UPKkjXnceLPEjTjXGXg==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -1338,6 +1371,7 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
+      acorn: 8.8.2
       commander: 2.20.3
       source-map: 0.7.3
       source-map-support: 0.5.20
@@ -1382,10 +1416,12 @@ packages:
       is-typedarray: 1.0.0
     dev: false
 
-  /undefsafe/2.0.3:
+  /undefsafe/2.0.3_supports-color@5.5.0:
     resolution: {integrity: sha512-nrXZwwXrD/T/JXeygJqdCO6NZZ1L66HrxM/Z7mIq2oPanoN0F1nLx3lwJMu6AwJY69hdixaFQOuoYsMjE5/C2A==}
     dependencies:
-      debug: 2.6.9
+      debug: 2.6.9_supports-color@5.5.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /unique-string/2.0.0:
