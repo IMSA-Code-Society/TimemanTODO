@@ -11,6 +11,8 @@
         padding: 5px;
         flex-direction: column;
         align-self:flex-start;
+        background-color:rgb(209, 209, 209);
+        min-height: 100vh;
     }
     .other{
         flex:3;
