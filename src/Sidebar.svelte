@@ -7,23 +7,31 @@
     }
     .sidebar{
         display: flex;
-        flex:1;
-        padding: 5px;
+        flex:2;
+        padding: 15px;
         flex-direction: column;
         align-self:flex-start;
-        background-color:rgb(209, 209, 209);
+        background-color:rgb(159, 159, 159);
         min-height: 100vh;
     }
     .other{
-        flex:3;
+        flex:12;
         flex-direction: column;
         display: flex;
     }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="container">
     <div class="sidebar">
         <h1>Sidebar</h1>
         <br><br>
+        <h3>Classes</h3>
+        <ul>
+            <li><i class="fa fa-folder" style="font-size:24px"></i> Class 1</li>
+            <li><i class="fa fa-folder" style="font-size:24px"></i> Class 2</li>
+            <li><i class="fa fa-folder" style="font-size:24px"></i> Class 3</li>
+        </ul>
+        <br>
         <h3>Projects</h3>
         <!-- Add actual functionality for this later-->
         <ul>
