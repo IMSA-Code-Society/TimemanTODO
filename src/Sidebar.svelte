@@ -19,6 +19,12 @@
         flex-direction: column;
         display: flex;
     }
+    hr{
+        height:3px;
+        width:100%;
+        border-width:0;
+        background-color:black;
+    }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="container">
@@ -27,13 +33,15 @@
         <br><br>
         <h3>Classes</h3>
         <ul>
-            <li><i class="fa fa-folder" style="font-size:24px"></i> Class 1</li>
-            <li><i class="fa fa-folder" style="font-size:24px"></i> Class 2</li>
-            <li><i class="fa fa-folder" style="font-size:24px"></i> Class 3</li>
+            <li><i class="fa fa-folder"></i> Class 1</li>
+            <li><i class="fa fa-folder"></i> Class 2</li>
+            <li><i class="fa fa-folder"></i> Class 3</li>
+            <li><i class="fa fa-plus"></i> New Class</li>
         </ul>
         <br>
+        <hr>
+        <br>
         <h3>Projects</h3>
-        <!-- Add actual functionality for this later-->
         <ul>
             <li>Thing</li>
             <li>Thing</li>
