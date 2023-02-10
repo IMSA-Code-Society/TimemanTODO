@@ -1,10 +1,12 @@
 <script>
     import Tasks from "./tasks/Tasks.svelte";
     import Sidebar from "./Sidebar.svelte";
+	import Chart from "./Chart.svelte";
+	export let due;
 </script>
 
 <Sidebar />
-<Tasks />
+<Tasks /><Chart></Chart>
 
 <style>
 	main {
