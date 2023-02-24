@@ -5,6 +5,7 @@
 
     let hasFocus = isNew;
     let taskContainer;
+    let categoryName = 'homework';
 
     function autosuggest(ev) {
         const assignment = ev.target.value;
@@ -14,10 +15,10 @@
         if (hwCat === 'research') hwCat = 'read';
         if (confidence > 0.7) {
             console.log(hwCat);
+            categoryName = hwCat;
             console.log("priority:", Math.min(count(assignment, /!/g), 3));
         }
     }
-
     function checkUnfocus(ev) {
         hasFocus = hasFocus && taskContainer.contains(ev.relatedTarget);
     }
@@ -44,7 +45,7 @@
         <button>5</button>
     </div>
     <div class="flex">
-        <select>
+        <select bind:value = {categoryName}>
             {#each hwTypeVocab as hwType}
                 <option>{hwType}</option>
             {/each}
