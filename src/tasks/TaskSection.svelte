@@ -3,5 +3,10 @@
     export let due; //* today, tomorrow, week, later
 </script>
 
-<div style="background-color: lightgrey; padding: 2px">{due}</div>
+<div style="background-color: #82c5d1; padding: 5px; border-radius: 12px; margin: 5px">{due}</div>
+
 <Task/>
+
+<style>
+    
+</style>
