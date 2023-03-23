@@ -85,8 +85,7 @@ async function getUnsyncedChanges() {
     };
   })
 }
-
-export function pushLocalChanges(unsyncedLocalData: Transaction[]) {
+ function pushLocalChanges(unsyncedLocalData: Transaction[]) {
   console.log("Pushing", unsyncedLocalData.length, "local changes...");
   return new Promise<void>((res, rej) => {
     if (unsyncedLocalData.length > 0)
@@ -99,6 +98,13 @@ export function pushLocalChanges(unsyncedLocalData: Transaction[]) {
         res();
       });
   });
+}
+
+export async function makeCommit(commit: Transaction) {
+  const transactions = (await db).transaction("transactions", "readwrite").objectStore("transactions");
+  transactions.add(commit);
+  pushLocalChanges([commit]);
+  merge([commit]);
 }
 
 async function fetchRemoteChanges() {
