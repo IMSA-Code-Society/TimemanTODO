@@ -33,19 +33,18 @@
         <br><br>
         <h3>Classes</h3>
         <ul>
-            <li><i class="fa fa-folder"></i> Class 1</li>
-            <li><i class="fa fa-folder"></i> Class 2</li>
-            <li><i class="fa fa-folder"></i> Class 3</li>
+            <li><i class="fa fa-book"></i> Class 1</li>
+            <li><i class="fa fa-book"></i> Class 2</li>
+            <li><i class="fa fa-book"></i> Class 3</li>
             <li><i class="fa fa-plus"></i> New Class</li>
         </ul>
-        <br>
         <hr>
         <br>
         <h3>Projects</h3>
         <ul>
-            <li>Thing</li>
-            <li>Thing</li>
-            <li>Thing</li>
+            <li>Project A</li>
+            <li>Project B</li>
+            <li>Project C</li>
         </ul>
     </div>
     <div class="other"><slot></slot></div>
