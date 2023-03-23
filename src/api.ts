@@ -1,4 +1,5 @@
 import * as client from "../transactionalDB/client"
+import type {TypedDatabase} from "../transactionalDB/indexedDB";
 
 export interface TimerTransaction {
   id: number,
@@ -16,6 +17,13 @@ export interface Task {
   projectId: number,
 }
 
+const postsDb = client.openDb("posts", 1) as Promise<TypedDatabase<{ timer: Task & {id: number} }>>;
+
 function createTask(task: Task) {
   client.makeCommit({operation: "create", database: "posts", payloadValue: JSON.stringify(task)})
+}
+
+async function getAllTasks(task: Task) {
+  return (await postsDb).transaction("timer").objectStore("timer")
+    .getAll();
 }
