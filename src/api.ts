@@ -17,5 +17,5 @@ export interface Task {
 }
 
 function createTask(task: Task) {
-  client.pushLocalChanges([{operation: "create", timestamp: new Date().getTime(), database: "posts", payloadValue: JSON.stringify(task)}])
+  client.makeCommit({operation: "create", database: "posts", payloadValue: JSON.stringify(task)})
 }

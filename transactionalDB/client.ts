@@ -100,11 +100,13 @@ async function getUnsyncedChanges() {
   });
 }
 
-export async function makeCommit(commit: Transaction) {
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+export async function makeCommit(commit: Optional<Transaction, "timestamp">) {
+  const fullCommit = {timestamp: new Date().getTime(), ...commit};
   const transactions = (await db).transaction("transactions", "readwrite").objectStore("transactions");
-  transactions.add(commit);
-  pushLocalChanges([commit]);
-  merge([commit]);
+  transactions.add(fullCommit);
+  pushLocalChanges([fullCommit]);
+  merge([fullCommit]);
 }
 
 async function fetchRemoteChanges() {
