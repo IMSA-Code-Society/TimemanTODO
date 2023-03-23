@@ -5,6 +5,7 @@
 
     let hasFocus = isNew;
     let taskContainer;
+    let categoryName = 'homework';
 
     function autosuggest(ev) {
         const assignment = ev.target.value;
@@ -14,10 +15,10 @@
         if (hwCat === 'research') hwCat = 'read';
         if (confidence > 0.7) {
             console.log(hwCat);
+            categoryName = hwCat;
             console.log("priority:", Math.min(count(assignment, /!/g), 3));
         }
     }
-
     function checkUnfocus(ev) {
         hasFocus = hasFocus && taskContainer.contains(ev.relatedTarget);
     }
@@ -44,7 +45,7 @@
         <button>5</button>
     </div>
     <div class="flex">
-        <select>
+        <select bind:value = {categoryName}>
             {#each hwTypeVocab as hwType}
                 <option>{hwType}</option>
             {/each}
@@ -53,13 +54,21 @@
 </div>
 
 <style>
+    #task {
+        border: 1px solid rgb(96, 118, 181);
+        border-radius: 8px;
+        margin: 10px;
+        background-color: #caedf3;
+        padding: 5px;
+    }
+    
     .flex {
         display: flex;
     }
 
     select {
         line-height: 1.2;
-        color: grey;
+        color: rgb(0, 0, 0);
         padding-left: 10px;
         border-radius: 50px;
         /*transition: 200ms;  Embrace the problem instead of trying to eliminate it */
@@ -67,9 +76,9 @@
 
     select:focus {
         outline: none;
-        background-color: lightgrey;
+        background-color: rgb(64, 128, 167);
     }
-    option:not(:checked) { background: #fff; }
+    option:not(:checked) { background: rgb(64, 128, 167); }
 
     #task[hasfocus=true] select {
         /*appearance: revert;*/
