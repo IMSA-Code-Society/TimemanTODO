@@ -1,5 +1,4 @@
-// @ts-ignore
-import io from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+import {io} from "socket.io-client";
 import {WSResponse, Transaction} from "./common";
 import {TypedDatabase} from "./indexedDB";
 

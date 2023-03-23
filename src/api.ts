@@ -19,11 +19,23 @@ export interface Task {
 
 const postsDb = client.openDb("posts", 1) as Promise<TypedDatabase<{ timer: Task & {id: number} }>>;
 
-function createTask(task: Task) {
+// TODO: wraps db modifications in a Svelte store
+function statefulDbAccessor() {
+
+}
+
+// TODO: export const taskManager = new TaskManager();  // TaskManager contains stateful functions like createTask & getAllTasks
+
+export function createTask(task: Task) {
   client.makeCommit({operation: "create", database: "posts", payloadValue: JSON.stringify(task)})
 }
 
-async function getAllTasks(task: Task) {
-  return (await postsDb).transaction("timer").objectStore("timer")
-    .getAll();
+export async function getAllTasks() {
+  try {
+    return (await postsDb).transaction("timer").objectStore("timer")
+      .getAll();
+  } catch (err) {
+    // Errored because the db does not exist yet. TODO: more eloquent way of handling this
+    return [];
+  }
 }
