@@ -30,10 +30,10 @@ export function createTask(task: Task) {
   client.makeCommit({operation: "create", database: "posts", payloadValue: JSON.stringify(task)})
 }
 
-export async function getAllTasks() {
+export async function getAllTasks(): Promise<(Task & {id: number})[]> {
   try {
     return (await postsDb).transaction("timer").objectStore("timer")
-      .getAll();
+      .getAll().result;
   } catch (err) {
     // Errored because the db does not exist yet. TODO: more eloquent way of handling this
     return [];

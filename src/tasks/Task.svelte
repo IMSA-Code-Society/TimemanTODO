@@ -1,7 +1,7 @@
-<script>
-    import {count, findMostSimilar, hwTypeVocab} from "./categorize";
+<script lang="ts">
+    import {count, findMostSimilar, hwTypeVocab} from "./categorize.js";
 
-    export let isNew = false; //* bool
+    export let isNew: boolean = false;
 
     let hasFocus = isNew;
     let taskContainer;
@@ -61,7 +61,7 @@
         background-color: #caedf3;
         padding: 5px;
     }
-    
+
     .flex {
         display: flex;
     }
