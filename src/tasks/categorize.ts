@@ -3,10 +3,15 @@ import jaroWinkler from './jaroWinkler.js';
 // TODO: everything else should beat out 'study'
 // TODO: research & worksheet are synonyms, don't show to user
 // TODO: essay synonym for paper
-export const hwTypeVocab = ['homework', 'test', 'worksheet', 'study', 'research', 'read', 'paper', 'presentation', 'lab', 'final', 'midterm', 'quiz', 'project'];
+export const hwTypeVocab = [
+	'homework', 'test', 'worksheet',
+	'study', 'research', 'read',
+	'paper', 'presentation', 'lab',
+	'final', 'midterm', 'quiz', 'project'
+] as const;
 
 // TODO: a way to define synonyms
-export function findMostSimilar(target, vocab) {
+export function findMostSimilar<T extends readonly string[]>(target: T[number], vocab: T) {
 	let maxCat;
 	let DEBUG_maxCat;  // What the algorithm thought was most similar
 	let maxSimilarity = 0;
@@ -26,6 +31,7 @@ export function findMostSimilar(target, vocab) {
 	return [maxCat, maxSimilarity];
 }
 
-export function count(str, regex) {
+// Count regular expression matches, default to 0
+export function count(str: string, regex: RegExp | string) {
 	return (str.match(regex) || []).length;
 }

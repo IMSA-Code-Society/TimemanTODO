@@ -1,10 +1,10 @@
 <script lang="ts">
-    import {count, findMostSimilar, hwTypeVocab} from "./categorize.js";
+    import {count, findMostSimilar, hwTypeVocab} from "./categorize";
 
     export let isNew: boolean = false;
 
     let hasFocus = isNew;
-    let taskContainer;
+    let taskContainer: HTMLDivElement;
     let categoryName = 'homework';
 
     function autosuggest(ev) {
