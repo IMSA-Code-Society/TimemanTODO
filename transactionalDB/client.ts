@@ -1,5 +1,4 @@
-// @ts-ignore
-import io from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+import {io} from "socket.io-client";
 import {WSResponse, Transaction} from "./common";
 import {TypedDatabase} from "./indexedDB";
 
@@ -85,10 +84,9 @@ async function getUnsyncedChanges() {
     };
   })
 }
-
-function pushLocalChanges(unsyncedLocalData: Transaction[]) {
+ function pushLocalChanges(unsyncedLocalData: Transaction[]) {
   console.log("Pushing", unsyncedLocalData.length, "local changes...");
-  return new Promise((res, rej) => {
+  return new Promise<void>((res, rej) => {
     if (unsyncedLocalData.length > 0)
       // TODO: The number `1` is a placeholder for authentication
       socket.emit("submit", 1, unsyncedLocalData, (answer: WSResponse) => {
@@ -96,8 +94,18 @@ function pushLocalChanges(unsyncedLocalData: Transaction[]) {
           throw answer.error + ": " + answer.message;
         localStorage.head = Math.max(answer.message, getStorage("head"));
         localStorage.syncIndex = unsyncedLocalData.at(-1).timestamp;
+        res();
       });
   });
+}
+
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+export async function makeCommit(commit: Optional<Transaction, "timestamp">) {
+  const fullCommit = {timestamp: new Date().getTime(), ...commit};
+  const transactions = (await db).transaction("transactions", "readwrite").objectStore("transactions");
+  transactions.add(fullCommit);
+  pushLocalChanges([fullCommit]);
+  merge([fullCommit]);
 }
 
 async function fetchRemoteChanges() {
@@ -158,7 +166,7 @@ export async function applyDelta(transaction: Transaction) {
 // TODO: make socket a class that accepts a `auth` param?
 export const socket = io();
 socket.on("connect", async () => {
-  console.log("Connected!");
+  console.log("Socket connected!");
   // This should hopefully solve the issue of conflicting head/syncIndex pointers
   const unsyncedChanges = await getUnsyncedChanges()
   await fetchRemoteChanges();

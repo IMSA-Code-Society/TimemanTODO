@@ -1,12 +1,17 @@
-<script>
+<script lang="ts">
     import Task from "./Task.svelte";
-    export let due; //* today, tomorrow, week, later
+    import TimePeriod from "../TimePeriod";
+
+    export let due: TimePeriod;
+    export let tasks: Task[];
 </script>
 
-<div style="background-color: #82c5d1; padding: 5px; border-radius: 12px; margin: 5px">{due}</div>
+<div style="background-color: #82c5d1; padding: 5px; border-radius: 12px; margin: 5px">{TimePeriod[due]}</div>
 
-<Task/>
+{#each tasks as task}
+    <Task taskData={task} />
+{/each}
 
 <style>
-    
+
 </style>
