@@ -3,8 +3,8 @@
     import Sidebar from "./Sidebar.svelte";
 </script>
 
-<Sidebar />
-<Tasks />
+<Sidebar><Tasks /></Sidebar>
+
 
 <style>
 	main {
