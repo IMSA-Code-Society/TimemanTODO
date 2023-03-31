@@ -9,7 +9,7 @@
 <div style="background-color: #82c5d1; padding: 5px; border-radius: 12px; margin: 5px">{TimePeriod[due]}</div>
 
 {#each tasks as task}
-    <Task />
+    <Task taskData={task} />
 {/each}
 
 <style>
