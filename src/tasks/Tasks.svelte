@@ -13,7 +13,9 @@
         // Midnight today (in the past, not future)
         const today = new Date().setHours(0, 0, 0, 0) * MILLISECOND;
         const due = task.due * MILLISECOND;
-        if (due < today + DAY)
+        if (due < today)
+          timeSections[TimePeriod.Overdue].push(task);
+        else if (due < today + DAY)
           timeSections[TimePeriod.Today].push(task);
         else if (due < today + 2 * DAY)
           timeSections[TimePeriod.Tomorrow].push(task);
