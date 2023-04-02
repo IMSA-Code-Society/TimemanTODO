@@ -7,28 +7,19 @@
 
     let hasFocus = isNew;
 
-    // Bound task data variables that get submitted. Unfortunately, cannot be combined into object & bound
-    // TODO: redo this in a less verbose way. Probably best to use events, that way everything is encapsulated anyways
     export let taskData: Partial<Task> = {};
-    let {description: taskDescription="", due: taskDue, predictedTime: taskPredictedTime=0, projectId: taskProjectId, title: taskTitle="", category: taskCategory="homework"} = taskData;
-    $: taskData = {
-      category: taskCategory,
-      description: taskDescription,
-      due: taskDue,
-      predictedTime: taskPredictedTime,
-      projectId: taskProjectId,
-      title: taskTitle,
-    };
+    taskData = {description: "", predictedTime: 0, title: "", category: "homework", ...taskData};
 
     function autosuggest(ev) {
         const assignment = ev.target.value;
+        taskData.title = assignment;
         let [hwCat, confidence] = findMostSimilar(assignment, hwTypeVocab);
         // 'homework' synonyms
         if (hwCat === 'worksheet') hwCat = 'homework';
         if (hwCat === 'research') hwCat = 'read';
         if (confidence > 0.7) {
             console.log(hwCat);
-            taskCategory = hwCat;
+            taskData.category = hwCat;
             console.log("priority:", Math.min(count(assignment, /!/g), 3));
         }
     }
@@ -63,16 +54,16 @@
             <input type="checkbox"/>
             <button>Go</button>
         {/if}
-        <input style="flex-grow: 99" type="text" on:input={autosuggest} bind:value={taskTitle} placeholder={isNew ? "New task" : "Task title"} />
-        <TimeEstimator bind:value={taskPredictedTime} />
+        <input style="flex-grow: 99" type="text" on:input={autosuggest} placeholder={isNew ? "New task" : "Task title"} />
+        <TimeEstimator bind:value={taskData.predictedTime} />
     </div>
     <div class="flex">
-        <select bind:value={taskCategory}>
+        <select bind:value={taskData.category}>
             {#each hwTypeVocab as hwType}
                 <option>{hwType}</option>
             {/each}
         </select>
-        <input type="date" bind:value={taskDue} />
+        <input type="date" bind:value={taskData.due} />
     </div>
 </div>
 
