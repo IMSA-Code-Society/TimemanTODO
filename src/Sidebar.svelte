@@ -1,31 +1,3 @@
-<style>
-
-    .container {
-        margin: auto;
-        font-family: sans-serif;
-        display:flex;
-    }
-    .sidebar{
-        display: flex;
-        flex:2;
-        padding: 15px;
-        flex-direction: column;
-        align-self:flex-start;
-        background-color:rgb(159, 159, 159);
-        min-height: 100vh;
-    }
-    .other{
-        flex:12;
-        flex-direction: column;
-        display: flex;
-    }
-    hr{
-        height:3px;
-        width:100%;
-        border-width:0;
-        background-color:black;
-    }
-</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script lang="ts">
     import { createProject, getAllProjects, createCourse, getAllCourses} from "./api";
@@ -65,3 +37,33 @@
     </div>
     <div class="other"><slot></slot></div>
 </div>
+
+<style>
+    .container {
+        margin: auto;
+        font-family: sans-serif;
+        display:flex;
+    }
+    .sidebar{
+        display: flex;
+        flex:2;
+        padding: 15px;
+        flex-direction: column;
+        align-self:flex-start;
+        background-color:rgb(159, 159, 159);
+        min-height: 100vh;
+    }
+    .other{
+        flex:12;
+        flex-direction: column;
+        display: flex;
+        overflow: auto;
+        height: 100vh;
+    }
+    hr{
+        height:3px;
+        width:100%;
+        border-width:0;
+        background-color:black;
+    }
+</style>
