@@ -1,4 +1,5 @@
 <script lang="ts">
+    import * as chrono from 'chrono-node';
     import {count, findMostSimilar, hwTypeVocab} from "./categorize";
     import {createTask, Task} from "../api";
     import TimeEstimator from "./TimeEstimator.svelte";
@@ -21,6 +22,14 @@
             console.log(hwCat);
             taskData.category = hwCat;
             console.log("priority:", Math.min(count(assignment, /!/g), 3));
+        }
+
+        // Date input can't handle Date objects ironically, so I'm using this SO workaround: https://stackoverflow.com/a/29774197
+        let parsedDate =  chrono.parseDate(assignment, new Date());
+        if (parsedDate) {
+            const offset = parsedDate.getTimezoneOffset();
+            parsedDate = new Date(parsedDate.getTime() - (offset * 60 * 1000));
+            taskData.due = parsedDate.toISOString().split('T')[0];
         }
     }
 
@@ -54,7 +63,7 @@
             <input type="checkbox"/>
             <button>Go</button>
         {/if}
-        <input style="flex-grow: 99" type="text" on:input={autosuggest} placeholder={isNew ? "New task" : "Task title"} />
+        <input style="flex-grow: 99" type="text" on:input={autosuggest} value={taskData.title} placeholder={isNew ? "New task" : "Task title"} />
         <TimeEstimator bind:value={taskData.predictedTime} />
     </div>
     <div class="flex">
