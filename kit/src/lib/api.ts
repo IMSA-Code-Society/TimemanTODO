@@ -1,6 +1,6 @@
 import * as client from "../transactionalDB/client"
 import type {TypedDatabase} from "../transactionalDB/indexedDB";
-import type {hwTypeVocab} from "./tasks/categorize";
+import type {hwTypeVocab} from "../routes/tasks/categorize";
 
 export interface TimerTransaction {
   id: number,
