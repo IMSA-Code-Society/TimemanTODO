@@ -29,7 +29,8 @@
 		"@tensorflow/tfjs-converter": "^4.2.0",
 		"@tensorflow/tfjs-core": "^4.2.0",
 		"chrono-node": "^2.6.2",
-		"seedrandom": "^3.0.5"
+		"seedrandom": "^3.0.5",
+		"transactionaldb": "workspace:*"
 	},
 	"type": "module"
 }

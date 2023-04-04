@@ -1,0 +1,4 @@
+packages:
+  - 'kit/'
+  - 'transactionalDB/'
+  - 'Truth/'
