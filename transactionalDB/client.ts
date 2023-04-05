@@ -1,4 +1,4 @@
-import {io} from "socket.io-client";
+// import {io} from "socket.io-client";
 import {WSResponse, Transaction} from "./common";
 import {TypedDatabase} from "./indexedDB";
 
@@ -28,6 +28,7 @@ function setStorage<T extends keyof typeof transforms>(key: T, val: ReturnType<(
 type TransactionDB = TypedDatabase<{ "transactions": Transaction & {id: any}}>  // TODO: hacky work-around to allow primary keys that is not "id"
 const db: Promise<TransactionDB> = new Promise((res, rej) => {
 
+  console.log("MEMEMEMMEMEM!")
   const request = globalThis.indexedDB.open('transactions', 1);
   request.onsuccess = function() {
     console.log('Database opened successfully');
@@ -87,15 +88,6 @@ async function getUnsyncedChanges() {
  function pushLocalChanges(unsyncedLocalData: Transaction[]) {
   console.log("Pushing", unsyncedLocalData.length, "local changes...");
   return new Promise<void>((res, rej) => {
-    if (unsyncedLocalData.length > 0)
-      // TODO: The number `1` is a placeholder for authentication
-      socket.emit("submit", 1, unsyncedLocalData, (answer: WSResponse) => {
-        if (answer.error)
-          throw answer.error + ": " + answer.message;
-        localStorage.head = Math.max(answer.message, getStorage("head"));
-        localStorage.syncIndex = unsyncedLocalData.at(-1).timestamp;
-        res();
-      });
   });
 }
 
@@ -161,15 +153,3 @@ export async function applyDelta(transaction: Transaction) {
   applyDeltas([transaction]);
   pushLocalChanges([transaction]);
 }
-
-// Must be executed after DOM is ready (TODO: confirm?)
-// TODO: make socket a class that accepts a `auth` param?
-export const socket = io();
-socket.on("connect", async () => {
-  console.log("Socket connected!");
-  // This should hopefully solve the issue of conflicting head/syncIndex pointers
-  const unsyncedChanges = await getUnsyncedChanges()
-  await fetchRemoteChanges();
-  await pushLocalChanges(unsyncedChanges);
-  console.log("Done!");
-});
