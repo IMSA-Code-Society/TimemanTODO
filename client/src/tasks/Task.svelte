@@ -73,7 +73,7 @@
                 <option>{hwType}</option>
             {/each}
         </select>
-        <input type="date" bind:value={taskData.due} />
+        <input type="date" style="height: 1em" bind:value={taskData.due} />
     </div>
 </div>
 
