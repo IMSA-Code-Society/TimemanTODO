@@ -4,10 +4,15 @@
 TODO
 
 ## Tech stack
-- Svelte: client side, reactive component-based library. Chose over SvelteKit because I don't need the extra hydration. When I tried to disable ssr, it could not find my modules :/
-- Sqlite: database. Simple to set up, doesn't require an extra server. Might change this as app scales
-- pnpm: node package manager. Chose over npm because of its monorepo workspace features and storage efficiency
-- Vite: javascript/css bundler. Chose over Rollup because I have traumatic experiences with Rollup (mistaking start with dev), plus it's slow
+- **Svelte:** client side, reactive component-based library. Chose over SvelteKit because
+  1. I don't need the extra complexity of ssr & hydration, nor want to run an extra server.
+  2. SSG loses page transitions
+  3. It would be great if I were fetching db info, but I am not.
+  4. Code splitting and pwa caching should mitigate large bundle issues & I don't need to support old browsers
+- **Sqlite:** database. Simple to set up, doesn't require an extra server. Might change this as app scales
+- **pnpm:** node package manager. Chose over npm because of its monorepo workspace features and storage efficiency
+- **Vite:** javascript/css bundler. Chose over Rollup because I have traumatic experiences with Rollup (mistaking start with dev), plus it's slow
+- **Node.js:** backend JavaScript runtime.
 
 ## Setup & Contributing
 1. Install a [code editor](https://code.visualstudio.com/), [GitHub Desktop](https://desktop.github.com/), and [Node.js](https://nodejs.org/en)
