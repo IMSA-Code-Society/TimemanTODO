@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script lang="ts">
-    import { createProject, getAllProjects, createCourse, getAllCourses} from "./api";
+    import { createProject, getAllProjects, createCourse, getAllCourses} from "../../lib/api";
 
     function newProj() {
         createProject({id: null, name: prompt("Name your project"), owner: 1});
