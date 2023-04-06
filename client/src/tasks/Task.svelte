@@ -1,8 +1,8 @@
 <script lang="ts">
     import * as chrono from 'chrono-node';
     import {count, findMostSimilar, hwTypeVocab} from "./categorize";
-    import {createTask} from "../api";
-    import type {Task} from "../api";
+    import {createTask} from "../lib/api";
+    import type {Task} from "../lib/api";
     import TimeEstimator from "./TimeEstimator.svelte";
 
     export let isNew: boolean = false;

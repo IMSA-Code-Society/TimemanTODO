@@ -1,6 +1,6 @@
 <script lang="ts">
     import Task from "./Task.svelte";
-    import TimePeriod from "../TimePeriod";
+    import TimePeriod from "../lib/TimePeriod";
 
     export let due: TimePeriod;
     export let tasks: Task[];
