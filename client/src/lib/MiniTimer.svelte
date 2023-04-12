@@ -95,7 +95,6 @@
                 /* Add an extra 0.1% to smooth the line */
                 conic-gradient(var(--fg) calc(var(--pgPercentage) * 1%), var(--bg) calc(var(--pgPercentage) * 1% + 0.5%), var(--bg) 0)
     ;
-        font-family: Helvetica, Arial, sans-serif;
         font-size: calc(var(--size) / 2);
         font-weight: bold;
         color: var(--fg);

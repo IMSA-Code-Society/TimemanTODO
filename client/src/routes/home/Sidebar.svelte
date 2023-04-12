@@ -41,7 +41,6 @@
 <style>
     .container {
         margin: auto;
-        font-family: sans-serif;
         display: flex;
     }
     .sidebar{
