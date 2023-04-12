@@ -1,7 +1,24 @@
 # Contributing
 
 ## Directory
-TODO
+```
+timemanTODO/
+├ api/
+│ └ [Ignore, will probably get removed]
+├ client/
+│ ├ src/
+│ │ ├ lib/
+│ │ │ └ [resources shared across routes]
+│ │ └ rotes/
+│ │   └ [different "screens" of the page]
+│ └ public/
+│   └ [your static assets]
+├ transactionalDB/
+│ └ [syncable database service. Stores task info]
+├ Truth/
+│ └ [database for general student info (class schedule, althorizing scopes to other apps]
+└ package.json
+```
 
 ## Tech stack
 - **Svelte:** client side, reactive component-based library. Chose over SvelteKit because
