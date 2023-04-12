@@ -42,28 +42,28 @@
     .container {
         margin: auto;
         font-family: sans-serif;
-        display:flex;
+        display: flex;
     }
     .sidebar{
         display: flex;
-        flex:2;
+        flex: 2;
         padding: 15px;
         flex-direction: column;
-        align-self:flex-start;
-        background-color:rgb(159, 159, 159);
+        align-self: flex-start;
+        background-color: rgb(159, 159, 159); /* or yellow? #fff689 */
         min-height: 100vh;
     }
     .other{
-        flex:12;
+        flex: 12;
         flex-direction: column;
         display: flex;
         overflow: auto;
         height: 100vh;
     }
     hr{
-        height:3px;
-        width:100%;
-        border-width:0;
-        background-color:black;
+        height: 3px;
+        width: 100%;
+        border-width: 0;
+        background-color: black;
     }
 </style>
