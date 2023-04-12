@@ -2,10 +2,11 @@
     import { onDestroy } from "svelte";
     import {link} from 'svelte-spa-router';
     import PlayPauseButton from "./PlayPauseButton.svelte";
+    import {sharedElementTransition} from "./transitions";
 
     // This doesn't work b/c indeterminate is boolean, not singular value
     //type ToggleType<Toggle extends boolean, Truthy, Falsy=unknown> = Toggle extends true ? Falsy : Truthy;
-    
+
     //export let props: {indeterminate?: false, progress: number, totalTime: number, isPaused: boolean} | {indeterminate: true};
     // How much time has elapsed on the clock
     export let progress = 0;
@@ -16,6 +17,8 @@
 
     // Reference to the interval that increments/decrements the clock
     let intervalRef: number;
+
+    const [send, receive] = sharedElementTransition;
 
     function stopTimer(ev: MouseEvent) {
       ev.stopPropagation();
@@ -29,7 +32,7 @@
 </script>
 
 <a href="/timer" use:link>
-    <div id="minitimer">
+    <div id="minitimer" in:receive={{key: "timer"}} out:send={{key: "timer"}}>
         <!-- Accessability docs: https://www.w3.org/TR/wai-aria-1.1/#aria-valuenow TODO -->
         <div role="progressbar" class:indeterminate aria-valuenow={progress} aria-valuemin={0} aria-valuemax={totalTime} style="--value: {progress}; --totalTime: {totalTime}"></div>
         <PlayPauseButton bind:isPaused />

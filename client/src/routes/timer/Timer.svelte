@@ -1,23 +1,26 @@
 <script lang="ts">
+    import {sharedElementTransition} from "../../lib/transitions";
+
+    const [send, receive] = sharedElementTransition;
 </script>
 
 <div class="perfectCenter">
-    <div id="login">
+    <div id="login" in:receive={{key: "timer"}} out:send={{key: "timer"}}>
         <div>
-        <form autocomplete="off" autocorrect="off" spellcheck="false">
-            <select id="task"></select><br />
-            <input placeholder="Goal" id="goal" type="text" /><br />
-            <!-- Cannot be type=number b/c when any letter entered, the value becomes "", clearing the input -->
-            <div style="display: flex; align-items: center;">
-            <input placeholder="Allocated Time" id="alloc" inputmode="decimal" min="0" step="any" oninput="this.value = this.value.replace(/[^1234567890]+/, '')" />
-            <button style="flex-shrink: 99; margin-right: 0; align-self: stretch;" onclick="event.preventDefault(); $('#alloc').val(25)">25</button>
+            <form autocomplete="off" autocorrect="off" spellcheck="false">
+                <select id="task"></select><br />
+                <input placeholder="Goal" id="goal" type="text" /><br />
+                <!-- Cannot be type=number b/c when any letter entered, the value becomes "", clearing the input -->
+                <div style="display: flex; align-items: center;">
+                    <input placeholder="Allocated Time" id="alloc" inputmode="decimal" min="0" step="any" oninput="this.value = this.value.replace(/[^1234567890]+/, '')" />
+                    <button style="flex-shrink: 99; margin-right: 0; align-self: stretch;" onclick="event.preventDefault(); $('#alloc').val(25)">25</button>
+                </div>
+                <span id="elapsed"></span>
+            </form>
+            <div style="display: flex;">
+                <button onclick="start()" style="background: limegreen;" id="start">Start</button>
+                <button onclick="stop()" style="background: indianred;" id="stop">Stop</button>
             </div>
-            <span id="elapsed"></span>
-        </form>
-        <div style="display: flex;">
-            <button onclick="start()" style="background: limegreen;" id="start">Start</button>
-            <button onclick="stop()" style="background: indianred;" id="stop">Stop</button>
-        </div>
         </div>
     </div>
 </div>
@@ -56,7 +59,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        
+
         height: var(--viewheight);
         width: 100vw;
         position: absolute;
