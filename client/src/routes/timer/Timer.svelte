@@ -87,8 +87,4 @@
         margin: 2px;
         background-color: white;
     }
-
-    button, select {
-        cursor: pointer;
-    }
 </style>

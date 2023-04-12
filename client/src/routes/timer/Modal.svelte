@@ -9,6 +9,7 @@
   openTarget.addEventListener("open", () => dialogRef.showModal());
 </script>
 
+<!-- TODO: make the dialog part its own component? -->
 <dialog bind:this={dialogRef}>
   <form method="dialog">
     <p class="modal-title">What did you accomplish?</p>
@@ -63,6 +64,7 @@
   }
   dialog[open] {
     opacity: 1;
+    /* TODO: show modal on bottom on mobile */
     margin-top: 1.75rem;
   }
   dialog::backdrop {
@@ -81,5 +83,10 @@
 
     /* Styles */
     color: #007bff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-radius: 0.25rem;
   }
 </style>
