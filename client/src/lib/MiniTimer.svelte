@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onDestroy } from "svelte";
+    import {link} from 'svelte-spa-router';
     import PlayPauseButton from "./PlayPauseButton.svelte";
 
     // This doesn't work b/c indeterminate is boolean, not singular value
@@ -16,7 +17,9 @@
     // Reference to the interval that increments/decrements the clock
     let intervalRef: number;
 
-    function stopTimer() {
+    function stopTimer(ev: MouseEvent) {
+      ev.stopPropagation();
+      ev.preventDefault();
       progress = 0;
       indeterminate = false;
       // TODO: update db
@@ -25,14 +28,16 @@
     onDestroy(() => clearInterval(intervalRef));
 </script>
 
-<div id="minitimer">
-    <!-- Accessability docs: https://www.w3.org/TR/wai-aria-1.1/#aria-valuenow TODO -->
-    <div role="progressbar" class:indeterminate aria-valuenow={progress} aria-valuemin={0} aria-valuemax={totalTime} style="--value: {progress}; --totalTime: {totalTime}"></div>
-    <PlayPauseButton bind:isPaused />
-    {#if isPaused && progress > 0}
-        <button on:click={stopTimer} class="reset">⏹️</button>
-    {/if}
-</div>
+<a href="/timer" use:link>
+    <div id="minitimer">
+        <!-- Accessability docs: https://www.w3.org/TR/wai-aria-1.1/#aria-valuenow TODO -->
+        <div role="progressbar" class:indeterminate aria-valuenow={progress} aria-valuemin={0} aria-valuemax={totalTime} style="--value: {progress}; --totalTime: {totalTime}"></div>
+        <PlayPauseButton bind:isPaused />
+        {#if isPaused && progress > 0}
+            <button on:click={stopTimer} class="reset">⏹️</button>
+        {/if}
+    </div>
+</a>
 
 <style>
     #minitimer {

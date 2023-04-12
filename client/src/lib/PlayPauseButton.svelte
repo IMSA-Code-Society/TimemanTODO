@@ -5,7 +5,9 @@
 
   const dispatch = createEventDispatcher()
 
-  function handleClick(ev) {
+  function handleClick(ev: MouseEvent) {
+    ev.stopPropagation();
+    ev.preventDefault();
     isPaused = !isPaused;
     // Forward click events to any parents
     dispatch("click", ev);

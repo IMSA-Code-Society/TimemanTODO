@@ -7,11 +7,10 @@
   const routes = {
     '/': Home,
 
-    // Wrapping the Author component
-    // '/author/:first/:last?': wrap({
-    //   asyncComponent: () => import('./routes/Author.svelte')
-    // }),
-    //
+    '/timer/:task?': wrap({
+      asyncComponent: () => import('./routes/timer/Timer.svelte')
+    }),
+
     // // Wrapping the Book component
     // '/book/*': wrap({
     //   asyncComponent: () => import('./routes/Book.svelte')
