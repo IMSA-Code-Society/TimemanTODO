@@ -48,11 +48,6 @@
     }
 
     /* Adapted from https://codepen.io/alvaromontoro/pen/LYjZqzP */
-    @keyframes growProgressBar {
-        0%, 33% { --pgPercentage: 0; }
-        100% { --pgPercentage: var(--value); }
-    }
-
     @property --pgPercentage {
         syntax: '<number>';
         inherits: false;
@@ -63,8 +58,7 @@
         --size: 3rem;
         --fg: #369;
         --bg: white;
-        --pgPercentage: calc(var(--value) / var(--totalTime));
-        animation: growProgressBar 3s 1 forwards;
+        --pgPercentage: calc(var(--value) / var(--totalTime) * 100);
         width: var(--size);
         height: var(--size);
         border-radius: 50%;
