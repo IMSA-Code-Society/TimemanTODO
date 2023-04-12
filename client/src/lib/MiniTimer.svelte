@@ -7,7 +7,7 @@
     
     //export let props: {indeterminate?: false, progress: number, totalTime: number, isPaused: boolean} | {indeterminate: true};
     // How much time has elapsed on the clock
-    export let progress = 55;
+    export let progress = 0;
     export let totalTime = 100;
     export let isPaused = true;
     // If true, ignore previous values
@@ -26,7 +26,8 @@
 </script>
 
 <div id="minitimer">
-    <div role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={totalTime} style="--value: {progress}; --totalTime: {totalTime}"></div>
+    <!-- Accessability docs: https://www.w3.org/TR/wai-aria-1.1/#aria-valuenow TODO -->
+    <div role="progressbar" class:indeterminate aria-valuenow={progress} aria-valuemin={0} aria-valuemax={totalTime} style="--value: {progress}; --totalTime: {totalTime}"></div>
     <PlayPauseButton bind:isPaused />
     {#if isPaused && progress > 0}
         <button on:click={stopTimer} class="reset">⏹️</button>
@@ -47,18 +48,35 @@
         font-size: 22pt;
     }
 
-    /* Adapted from https://codepen.io/alvaromontoro/pen/LYjZqzP */
+    @keyframes spinProgressBar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* This is needed if animating CSS variables
     @property --pgPercentage {
         syntax: '<number>';
         inherits: false;
         initial-value: 0;
     }
+    */
 
+    div[role="progressbar"].indeterminate {
+        animation: spinProgressBar 2s infinite forwards linear;
+        --pgPercentage: 75;
+    }
+
+    div[role="progressbar"].indeterminate::before {
+        /* Rotate the inner text opposite to outer. Feels hacky, but hey, it works */
+        animation: spinProgressBar 2s infinite reverse linear;
+    }
+
+    /* Adapted from https://codepen.io/alvaromontoro/pen/LYjZqzP */
     div[role="progressbar"] {
         --size: 3rem;
         --fg: #369;
         --bg: white;
-        --pgPercentage: calc(var(--value) / var(--totalTime) * 100);
+        --pgPercentage: calc(var(--value) / var(--totalTime) * 100); /* Despite the name, this is not a percent unit */
         width: var(--size);
         height: var(--size);
         border-radius: 50%;
@@ -73,11 +91,13 @@
         font-size: calc(var(--size) / 2);
         font-weight: bold;
         color: var(--fg);
+        transform: rotate(0deg);
     }
 
     div[role="progressbar"]::before {
         counter-reset: percentage var(--value);
         content: counter(percentage);
+        transform: rotate(0deg);
     }
     /* end section */
 </style>
