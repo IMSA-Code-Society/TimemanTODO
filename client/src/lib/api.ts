@@ -9,6 +9,11 @@ export interface TimerTransaction {
   taskId: number,
 }
 
+export interface Acomplishment {
+  accomplishment: string,
+  productive: boolean,
+}
+
 // Represents a task before it's been committed to the database
 export interface Task {
   due: Date,

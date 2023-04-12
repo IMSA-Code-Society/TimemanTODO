@@ -2,22 +2,51 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/css-toggle-switch@latest/dist/toggle-switch.min.css" />
 
 <script lang="ts">
+  import {createEventDispatcher, onDestroy} from "svelte";
+  import type {Acomplishment} from "../../lib/api";
+
   export let openTarget: EventTarget;
 
   let dialogRef: HTMLDialogElement;
 
+  const dispatch = createEventDispatcher<{ close: Acomplishment }>();
+
+  function submit(ev: SubmitEvent) {
+    const formRef = ev.target as HTMLFormElement;
+    const submitType = (ev.submitter as HTMLInputElement).name as "cancel" | "skip" | "finish";
+    const formData = new FormData(ev.target as HTMLFormElement);
+    switch (submitType) {
+      case "finish":
+        dispatch("close", {productive: formData.get("productive") === "on", accomplishment: formData.get("accomplishment") as string});
+        break;
+      case "skip":
+        dispatch("close", {productive: undefined, accomplishment: undefined});
+        break
+      case "cancel":
+        break;  // no op
+    }
+    formRef.reset();
+  }
+
+  function lightDismiss({target:dialog}) {
+    // Dismiss if clicked background
+    if (dialog.nodeName === 'DIALOG')
+      dialog.close('dismiss')
+  }
+
   openTarget.addEventListener("open", () => dialogRef.showModal());
+  onDestroy(() => openTarget.removeEventListener("open", null));
 </script>
 
 <!-- TODO: make the dialog part its own component? -->
-<dialog bind:this={dialogRef}>
-  <form method="dialog">
+<dialog bind:this={dialogRef} on:click={lightDismiss}>
+  <form method="dialog" on:submit={submit}>
     <p class="modal-title">What did you accomplish?</p>
-    <textarea id="prompt" style="width: 100%; resize: none; min-height: 55px;" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight+3+'px';"></textarea>
+    <textarea id="prompt" name="accomplishment" style="width: 100%; resize: none; min-height: 55px;" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight+3+'px';"></textarea>
 
     Productive?
     <label class="switch-light" style="display: inline-block; width: 65px; vertical-align: middle;">
-      <input type="checkbox" checked>
+      <input type="checkbox" name="productive" checked>
       <span>
         <span>☹️</span>
         <span>😊</span>
@@ -42,7 +71,7 @@
           type="submit"
           value="Finish"
           name="finish"
-          formnovalidate />
+          />
       </strong>
     </div>
   </form>
@@ -50,6 +79,8 @@
 
 <style>
   dialog {
+    width: 95%;
+    max-width: 500px;
     border: 1px solid rgba(0,0,0,.2);
     border-radius: 0.3rem;
     padding: 1rem;
