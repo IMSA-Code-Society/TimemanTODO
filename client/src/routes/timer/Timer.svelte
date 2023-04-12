@@ -1,5 +1,6 @@
 <script lang="ts">
     import {sharedElementTransition} from "../../lib/transitions";
+    import Modal from "./Modal.svelte";
 
     const [send, receive] = sharedElementTransition;
 </script>
@@ -24,6 +25,7 @@
         </div>
     </div>
 </div>
+<Modal />
 
 <style>
     #login {
