@@ -3,6 +3,11 @@
     import Modal from "./Modal.svelte";
 
     const [send, receive] = sharedElementTransition;
+    const openTarget = new EventTarget();
+
+    function stop() {
+      openTarget.dispatchEvent(new Event("open"));
+    }
 </script>
 
 <div class="perfectCenter">
@@ -20,12 +25,12 @@
             </form>
             <div style="display: flex;">
                 <button onclick="start()" style="background: limegreen;" id="start">Start</button>
-                <button onclick="stop()" style="background: indianred;" id="stop">Stop</button>
+                <button on:click={stop} style="background: indianred;" id="stop">Stop</button>
             </div>
         </div>
     </div>
 </div>
-<Modal />
+<Modal {openTarget} />
 
 <style>
     #login {
