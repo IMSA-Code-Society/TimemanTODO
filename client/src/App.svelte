@@ -8,7 +8,11 @@
     '/': Home,
 
     '/timer/:task?': wrap({
-      asyncComponent: () => import('./routes/timer/Timer.svelte')
+      asyncComponent: () => import('./routes/timer/Timer.svelte'),
+    }),
+
+    '/login': wrap({
+      asyncComponent: () => import('./routes/login/Login.svelte'),
     }),
 
     // // Wrapping the Book component
