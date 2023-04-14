@@ -11,7 +11,7 @@
 </script>
 
 <div class="perfectCenter">
-    <div id="login" in:receive={{key: "timer"}} out:send={{key: "timer"}}>
+    <div id="timer" in:receive={{key: "timer"}} out:send={{key: "timer"}}>
         <div>
             <form autocomplete="off" autocorrect="off" spellcheck="false">
                 <select id="task"></select><br />
@@ -33,7 +33,7 @@
 <Modal {openTarget} />
 
 <style>
-    #login {
+    #timer {
         background: conic-gradient(grey 100%, darkgrey 100%);
         border-radius: 10px;
         padding: 5px;
@@ -45,13 +45,13 @@
         transform: translateZ(0);
     }
 
-    #login > div {
+    #timer > div {
         padding: 20px;
         background: white;
         border-radius: 10px;
     }
 
-    #login * {
+    #timer * {
         font-size: 18pt;
         width: 100%;
     }
