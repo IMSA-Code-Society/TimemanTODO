@@ -28,9 +28,11 @@
     });
 </script>
 
-<Task isNew={true} />
-{#await timeSections then timeSections}
-    {#each timeSections as tasks, timePeriod}
-        <TaskSection due={timePeriod} tasks={tasks} />
-    {/each}
-{/await}
+<div style="padding-bottom: 78px">
+  <Task isNew={true} />
+  {#await timeSections then timeSections}
+      {#each timeSections as tasks, timePeriod}
+          <TaskSection due={timePeriod} tasks={tasks} />
+      {/each}
+  {/await}
+</div>

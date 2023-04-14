@@ -1,9 +1,25 @@
 <script lang="ts">
+    import { getTask } from "../../lib/api";
     import {sharedElementTransition} from "../../lib/transitions";
     import Modal from "./Modal.svelte";
 
+    export let params: {task?: number};
+
     const [send, receive] = sharedElementTransition;
     const openTarget = new EventTarget();
+    const task = getTask(Number.parseInt(params.task));
+    task.then(task => {
+        console.log(params.task, task);
+        goal = task.title;
+        allocTime = task.predictedTime;
+    });
+
+    let allocTime: number | undefined;
+    let goal: string;
+
+    function start() {
+
+    }
 
     function stop() {
       openTarget.dispatchEvent(new Event("open"));
@@ -14,17 +30,19 @@
     <div id="timer" in:receive={{key: "timer"}} out:send={{key: "timer"}}>
         <div>
             <form autocomplete="off" autocorrect="off" spellcheck="false">
-                <select id="task"></select><br />
-                <input placeholder="Goal" id="goal" type="text" /><br />
+                <select id="task">
+                </select>
+                <br />
+                <input placeholder="Goal" id="goal" type="text" bind:value={goal} /><br />
                 <!-- Cannot be type=number b/c when any letter entered, the value becomes "", clearing the input -->
                 <div style="display: flex; align-items: center;">
-                    <input placeholder="Allocated Time" id="alloc" inputmode="decimal" min="0" step="any" oninput="this.value = this.value.replace(/[^1234567890]+/, '')" />
-                    <button style="flex-shrink: 99; margin-right: 0; align-self: stretch;" onclick="event.preventDefault(); $('#alloc').val(25)">25</button>
+                    <input placeholder="Allocated Time" id="alloc" inputmode="decimal" min="0" step="any" bind:value={allocTime} on:input={allocTime = allocTime.replace(/[^1234567890]+/, '')} />
+                    <button style="flex-shrink: 99; margin-right: 0; align-self: stretch;" on:click|preventDefault={() => allocTime = 25}>25</button>
                 </div>
                 <span id="elapsed"></span>
             </form>
             <div style="display: flex;">
-                <button onclick="start()" style="background: limegreen;" id="start">Start</button>
+                <button on:click={start} style="background: limegreen;" id="start">Start</button>
                 <button on:click={stop} style="background: indianred;" id="stop">Stop</button>
             </div>
         </div>

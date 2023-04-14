@@ -1,15 +1,15 @@
 <script lang="ts">
     import * as chrono from 'chrono-node';
     import {count, findMostSimilar, hwTypeVocab} from "./categorize";
-    import {createTask} from "../../../lib/api";
-    import type {Task} from "../../../lib/api";
+    import {createTask, type SavedTask} from "../../../lib/api";
     import TimeEstimator from "./TimeEstimator.svelte";
+    import { link } from 'svelte-spa-router';
 
     export let isNew: boolean = false;
 
     let hasFocus = isNew;
 
-    export let taskData: Partial<Task> = {};
+    export let taskData: Partial<SavedTask> = {};
     taskData = {description: "", predictedTime: 0, title: "", category: "homework", ...taskData};
 
     function autosuggest(ev) {
@@ -62,7 +62,7 @@
             <div>+</div>
         {:else}
             <input type="checkbox"/>
-            <button>Go</button>
+            <a href="/timer/{taskData.id}" use:link><button>Go</button></a>
         {/if}
         <input style="flex-grow: 99" type="text" on:input={autosuggest} value={taskData.title} placeholder={isNew ? "New task" : "Task title"} />
         <TimeEstimator bind:value={taskData.predictedTime} />

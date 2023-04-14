@@ -92,6 +92,20 @@ export async function getAllTasks(): Promise<SavedTask[]> {
   });
 }
 
+export async function getTask(id: number): Promise<SavedTask | undefined> {
+  // TODO: abstract the promise & request.onsuccess (probably with statefulDbAccessor)
+  return new Promise(async res => {
+    try {
+      const request = (await tasksDb).transaction("posts").objectStore("posts").get(id);
+      request.onsuccess = () => res(request.result);
+    } catch (err) {
+      // Errored because the db does not exist yet. TODO: more elegant way of handling this
+      console.error(err);
+      res(undefined);
+    }
+  });
+}
+
 export async function getAllProjects(): Promise<Project[]> {
   // TODO: abstract the promise & request.onsuccess (probably with statefulDbAccessor)
   return new Promise(async res => {
