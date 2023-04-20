@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as chrono from 'chrono-node';
     import {count, findMostSimilar, hwTypeVocab} from "./categorize";
-    import {createTask, type SavedTask} from "../../../lib/api";
+    import {createTask, getAllProjects, type SavedTask} from "../../../lib/api";
     import TimeEstimator from "./TimeEstimator.svelte";
     import { link } from 'svelte-spa-router';
 
@@ -67,12 +67,19 @@
         <input style="flex-grow: 99" type="text" on:input={autosuggest} value={taskData.title} placeholder={isNew ? "New task" : "Task title"} />
         <TimeEstimator bind:value={taskData.predictedTime} />
     </div>
-    <div class="flex">
+    <div class="flex" style="gap: 0.25em">
         <select bind:value={taskData.category}>
             {#each hwTypeVocab as hwType}
                 <option>{hwType}</option>
             {/each}
         </select>
+        {#await getAllProjects() then allProjects}
+            <select bind:value={taskData.projectId}>
+                {#each allProjects as project}
+                    <option name={project.id}>{project.name}</option>
+                {/each}
+            </select>
+        {/await}
         <input type="date" style="height: 1em" bind:value={taskData.due} />
     </div>
 </div>
