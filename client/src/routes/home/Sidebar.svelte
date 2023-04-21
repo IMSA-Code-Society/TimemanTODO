@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script lang="ts">
     import { createProject, getAllProjects, createCourse, getAllCourses} from "../../lib/api";
-
+    import {link} from 'svelte-spa-router';
     function newProj() {
         createProject({id: null, name: prompt("Name your project"), owner: 1});
     }
@@ -34,6 +34,7 @@
             {/await}
             <li><button on:click={newProj}>Add Project</button></li>
         </ul>
+        <a class="loginButton" href="/login" use:link><button>Login</button></a>
     </div>
     <div class="other"><slot></slot></div>
 </div>
@@ -64,5 +65,9 @@
         width: 100%;
         border-width: 0;
         background-color: black;
+    }
+    .loginButton{
+        position:absolute;
+        bottom:10px;
     }
 </style>
