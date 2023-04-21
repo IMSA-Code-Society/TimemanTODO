@@ -4,6 +4,7 @@
     import {createTask, getAllCoursesAndProjects, getAllProjects, type SavedTask} from "../../../lib/api";
     import TimeEstimator from "./TimeEstimator.svelte";
     import { link } from 'svelte-spa-router';
+    import CorseProjectSelect from "../../../lib/CourseProjectSelect.svelte";
 
     export let isNew: boolean = false;
 
@@ -73,13 +74,7 @@
                 <option>{hwType}</option>
             {/each}
         </select>
-        {#await getAllCoursesAndProjects() then allProjects}
-            <select bind:value={taskData.projectId}>
-                {#each allProjects as project}
-                    <option name={project.id}>{project.name}</option>
-                {/each}
-            </select>
-        {/await}
+        <CorseProjectSelect />
         <input type="date" style="height: 1em" bind:value={taskData.due} />
     </div>
 </div>

@@ -2,6 +2,7 @@
     import { getTask } from "../../lib/api";
     import {sharedElementTransition} from "../../lib/transitions";
     import Modal from "./Modal.svelte";
+    import CourseProjectSelect from "../../lib/CourseProjectSelect.svelte";
 
     export let params: {task?: number};
 
@@ -30,8 +31,7 @@
     <div id="timer" in:receive={{key: "timer"}} out:send={{key: "timer"}}>
         <div>
             <form autocomplete="off" autocorrect="off" spellcheck="false">
-                <select id="task">
-                </select>
+                <CourseProjectSelect />
                 <br />
                 <input placeholder="Goal" id="goal" type="text" bind:value={goal} /><br />
                 <!-- Cannot be type=number b/c when any letter entered, the value becomes "", clearing the input -->
@@ -69,7 +69,7 @@
         border-radius: 10px;
     }
 
-    #timer * {
+    :global(#timer *) {
         font-size: 18pt;
         width: 100%;
     }
@@ -97,7 +97,7 @@
         pointer-events: all;
     }
 
-    input, select, button {
+    input, :global(select), button {
         box-sizing: border-box;
         -webkit-appearance: none;
         border: 1px solid rgb(169, 169, 169);
