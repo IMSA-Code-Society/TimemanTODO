@@ -43,9 +43,16 @@ export interface Course {
   owner: number,
 }
 
+export interface TimerState {
+  id: number,
+  elapsedTime: number,
+  taskId?: number,
+}
+
 const tasksDb = client.openDb("posts", 1) as Promise<TypedDatabase<{ posts: SavedTask }>>;
 const projectsDb = client.openDb("projects", 1) as Promise<TypedDatabase<{ projects: Project }>>;
 const coursesDb = client.openDb("courses", 1) as Promise<TypedDatabase<{ courses: Course }>>;
+const timerDb = client.openDb("timer", 1) as Promise<TypedDatabase<{ timer: TimerState }>>;
 
 // TODO: wraps db modifications in a Svelte store
 function statefulDbAccessor() {
