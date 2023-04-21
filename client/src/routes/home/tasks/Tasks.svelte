@@ -5,6 +5,8 @@
     import {DAY, MILLISECOND} from "../../../lib/Units";
     import TimePeriod from "../../../lib/TimePeriod";
 
+    export let currentTab: number = -1;
+
     let tasks = getAllTasks();
     // Mapping of tasks split up by time. Maps "today", "tomorrow", etc. to their respective tasks
     const timeSections = tasks.then(tasks => {
@@ -32,7 +34,7 @@
   <Task isNew={true} />
   {#await timeSections then timeSections}
       {#each timeSections as tasks, timePeriod}
-          <TaskSection due={timePeriod} tasks={tasks} />
+          <TaskSection due={timePeriod} tasks={currentTab == -1 ?tasks : tasks.filter(task => task.projectId == currentTab)} />
       {/each}
   {/await}
 </div>

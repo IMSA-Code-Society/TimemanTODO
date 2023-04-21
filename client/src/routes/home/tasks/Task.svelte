@@ -74,7 +74,7 @@
                 <option>{hwType}</option>
             {/each}
         </select>
-        <CorseProjectSelect />
+        <CorseProjectSelect bind:value={taskData.projectId} />
         <input type="date" style="height: 1em" bind:value={taskData.due} />
     </div>
 </div>

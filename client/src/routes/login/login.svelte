@@ -21,15 +21,17 @@
         padding:10px;
         margin:5px;
         font-size:25px;
+        border-radius: 5px;
         background-color:lightblue;
+        border:none;
     }
 </style>
 <body>
     <!--- This back button is currently functionless, and this back icon dosen't really fit--->
-    <button class="back"><i class="fa fa-arrow-left"></i></button>
+    <a class="loginButton" href="" use:link><button class="back"><i class="fa fa-arrow-left"></i></button> </a>
     <div class="loginBox center">
         <h1>Login</h1>
-        <form>
+        <form action="">
             <label for="uname">Username</label><br>
             <input type="text" id="uname"><br><br>
             <label for="pass">Password</label><br>

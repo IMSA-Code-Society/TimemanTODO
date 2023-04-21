@@ -4,5 +4,5 @@
     import MiniTimer from "../../lib/MiniTimer.svelte";
 </script>
 
-<Sidebar><Tasks /></Sidebar>
+<Sidebar let:currentTab><Tasks {currentTab} /></Sidebar>
 <MiniTimer />

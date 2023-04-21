@@ -7,7 +7,7 @@
 {#await getAllCoursesAndProjects() then allProjects}
     <select bind:value>
         {#each allProjects as project}
-            <option name={project.id}>{project.name}</option>
+            <option value={project.id}>{project.name}</option>
         {/each}
     </select>
 {/await}

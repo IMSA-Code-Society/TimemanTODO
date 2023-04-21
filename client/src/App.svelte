@@ -3,6 +3,10 @@
   import {wrap} from 'svelte-spa-router/wrap'
   import Home from "./routes/home/Home.svelte";
   import NotFound from "./routes/NotFound.svelte";
+  import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+
+  setContext("timer", writable({}));
 
   const routes = {
     '/': Home,

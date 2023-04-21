@@ -2,6 +2,10 @@
 <script lang="ts">
     import { createProject, getAllProjects, createCourse, getAllCourses} from "../../lib/api";
     import {link} from 'svelte-spa-router';
+
+    // Which project or course to view
+    let currentTab: number;
+
     function newProj() {
         createProject({id: null, name: prompt("Name your project"), owner: 1});
     }
@@ -13,30 +17,32 @@
 <div class="container">
     <div class="sidebar">
         <h1>Sidebar</h1>
+        <br/>
+        <button on:click={() => currentTab = -1}>All</button>
         <br><br>
         <h3>Classes</h3>
-        <ul>
+        <ul class = "courseProjectList">
             {#await getAllCourses() then allCourses}
                 {#each allCourses as course}
-                    <li><i class="fa fa-book"></i> {course.name}</li>
+                    <li><button class="courseProjectButton" on:click={() => currentTab = course.id}><i class="fa fa-book"></i> {course.name}</button></li>
                 {/each}
             {/await}
-            <li><button on:click={newCourse}> <i class="fa fa-plus"></i> New Class</button></li>
+            <li><button class="courseProjectButton" on:click={newCourse}> <i class="fa fa-plus"></i> New Class</button></li>
         </ul>
         <hr>
         <br>
         <h3>Projects</h3>
-        <ul>
+        <ul class = "courseProjectList">
             {#await getAllProjects() then allProjects}
                 {#each allProjects as project}
-                    <li>{project.name}</li>
+                    <li><button class="courseProjectButton" on:click={() => currentTab = project.id}>{project.name}</button></li>
                 {/each}
             {/await}
-            <li><button on:click={newProj}>Add Project</button></li>
+            <li><button class="courseProjectButton" on:click={newProj}>Add Project</button></li>
         </ul>
-        <a class="loginButton" href="/login" use:link><button>Login</button></a>
+        <a href="/login" use:link><button class="courseProjectButton">Login</button></a>
     </div>
-    <div class="other"><slot></slot></div>
+    <div class="other"><slot {currentTab}></slot></div>
 </div>
 
 <style>
@@ -46,7 +52,7 @@
     }
     .sidebar{
         display: flex;
-        flex: 2;
+        flex: 1;
         padding: 15px;
         flex-direction: column;
         align-self: flex-start;
@@ -54,7 +60,7 @@
         min-height: 100vh;
     }
     .other{
-        flex: 12;
+        flex: 6;
         flex-direction: column;
         display: flex;
         overflow: auto;
@@ -66,8 +72,15 @@
         border-width: 0;
         background-color: black;
     }
-    .loginButton{
-        position:absolute;
-        bottom:10px;
+    .courseProjectButton{
+        font-size:15px;
+        border-radius: 5px;
+        background-color:lightblue;
+        border:none;
+        margin:5px;
+    }
+    .courseProjectList{
+        list-style:none;
+        margin:auto;
     }
 </style>
