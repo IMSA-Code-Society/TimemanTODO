@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as chrono from 'chrono-node';
     import {count, findMostSimilar, hwTypeVocab} from "./categorize";
-    import {createTask, getAllProjects, type SavedTask} from "../../../lib/api";
+    import {createTask, getAllCoursesAndProjects, getAllProjects, type SavedTask} from "../../../lib/api";
     import TimeEstimator from "./TimeEstimator.svelte";
     import { link } from 'svelte-spa-router';
 
@@ -73,7 +73,7 @@
                 <option>{hwType}</option>
             {/each}
         </select>
-        {#await getAllProjects() then allProjects}
+        {#await getAllCoursesAndProjects() then allProjects}
             <select bind:value={taskData.projectId}>
                 {#each allProjects as project}
                     <option name={project.id}>{project.name}</option>

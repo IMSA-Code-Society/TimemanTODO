@@ -133,3 +133,8 @@ export async function getAllCourses(): Promise<Course[]> {
     }
   });
 }
+
+export async function getAllCoursesAndProjects() {
+  const [courses, projects] = await Promise.all([getAllCourses(), getAllProjects()])
+  return [...courses, ...projects];
+}
