@@ -9,7 +9,7 @@ export interface TimerTransaction {
   taskId: number,
 }
 
-export interface Acomplishment {
+export interface Accomplishment {
   accomplishment: string,
   productive: boolean,
 }

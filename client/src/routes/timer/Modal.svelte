@@ -3,13 +3,13 @@
 
 <script lang="ts">
   import {createEventDispatcher, onDestroy} from "svelte";
-  import type {Acomplishment} from "../../lib/api";
+  import type {Accomplishment} from "../../lib/api";
 
   export let openTarget: EventTarget;
 
   let dialogRef: HTMLDialogElement;
 
-  const dispatch = createEventDispatcher<{ close: Acomplishment }>();
+  const dispatch = createEventDispatcher<{ close: Accomplishment }>();
 
   function submit(ev: SubmitEvent) {
     const formRef = ev.target as HTMLFormElement;
