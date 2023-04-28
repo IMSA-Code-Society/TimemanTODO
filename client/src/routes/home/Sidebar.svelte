@@ -78,9 +78,11 @@
         background-color:lightblue;
         border:none;
         margin:5px;
+        padding:10px;
     }
     .courseProjectList{
         list-style:none;
         margin:auto;
+        padding:10px;
     }
 </style>

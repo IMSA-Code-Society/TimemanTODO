@@ -13,12 +13,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background-color: rgb(236, 236, 236);
     }
     .back{
         position:absolute;
         top:0;
         left:0;
-        padding:10px;
+        padding:10px 25px;
         margin:5px;
         font-size:25px;
         border-radius: 5px;
@@ -27,7 +28,6 @@
     }
 </style>
 <body>
-    <!--- This back button is currently functionless, and this back icon dosen't really fit--->
     <a class="loginButton" href="" use:link><button class="back"><i class="fa fa-arrow-left"></i></button> </a>
     <div class="loginBox center">
         <h1>Login</h1>
