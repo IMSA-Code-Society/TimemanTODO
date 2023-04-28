@@ -8,46 +8,46 @@
   import {writable} from "svelte/store";
 
   PouchDB.plugin(DeltaPouch);
-  PouchDB.plugin(PouchFind);
-  PouchDB.plugin(PouchFindLive);
-  const upstreamLiveFind = PouchDB.prototype.liveFind;
-  PouchDB.plugin(PouchDB => {
-    PouchDB.prototype.liveFindStore = function(requestDef: Parameters<typeof upstreamLiveFind>[0]): Readable<{}> {
-      console.log(this);
-      const liveFeed = upstreamLiveFind.call(this, requestDef);
-
-      return {
-        subscribe(run: Subscriber<{}>, invalidate: Invalidator<{}> | undefined): Unsubscriber {
-          run([]);
-          liveFeed.on('update', (update, aggregate) => run(aggregate));
-          return liveFeed.cancel;
-        }
-      }
-    };
-  });
+  // PouchDB.plugin(PouchFind);
+  // PouchDB.plugin(PouchFindLive);
+  // const upstreamLiveFind = PouchDB.prototype.liveFind;
+  // PouchDB.plugin(PouchDB => {
+  //   PouchDB.prototype.liveFindStore = function(requestDef: Parameters<typeof upstreamLiveFind>[0]): Readable<{}> {
+  //     console.log(this);
+  //     const liveFeed = upstreamLiveFind.call(this, requestDef);
+  //
+  //     return {
+  //       subscribe(run: Subscriber<{}>, invalidate: Invalidator<{}> | undefined): Unsubscriber {
+  //         run([]);
+  //         liveFeed.on('update', (update, aggregate) => run(aggregate));
+  //         return liveFeed.cancel;
+  //       }
+  //     }
+  //   };
+  // });
 
   const db = new PouchDB<{}>("test");
   db.deltaInit();
-  // db.delta
-  //   .on('create', refetch)
-  //   .on('update', refetch)
-  //   .on('delete', refetch);
+  db.delta
+    .on('create', refetch)
+    .on('update', refetch)
+    .on('delete', refetch);
 
-  const liveFeed = db.liveFindStore({
-    selector: {},  // {series: 'Mario'}
-    sort: [],  // [{series: 'desc'}, {name: 'desc'}]
-    aggregate: true
-  });
+  // const liveFeed = db.liveFindStore({
+  //   selector: {},  // {series: 'Mario'}
+  //   sort: [],  // [{series: 'desc'}, {name: 'desc'}]
+  //   aggregate: true
+  // });
 
-  // const liveFeed = writable([]);
+  const liveFeed = writable([]);
 
-  // function refetch() {
-  //   db.all().then(function (docs) {
-  //     console.log(docs);
-  //     liveFeed.set(Object.values(docs));
-  //   });
-  // }
-  // refetch();
+  function refetch() {
+    db.all().then(function (docs) {
+      console.log(docs);
+      liveFeed.set(Object.values(docs));
+    });
+  }
+  refetch();
 
   let newTodo: string;
 
@@ -65,6 +65,6 @@
         <div>{JSON.stringify(todo)}</div>
         {todo.$id}
         <input value={todo.title} on:change={ev => submit(todo.$id, ev.target.value)} />
-        <button on:click={() => db.delete(todo._id).then(console.log)}>❎</button>
+        <button on:click={() => db.delete(todo.$id).then(console.log)}>❎</button>
     {/each}
 </div>
