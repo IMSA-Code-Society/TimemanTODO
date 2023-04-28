@@ -1,6 +1,9 @@
 import * as client from "transactionalDB/client"
 import type {TypedDatabase} from "transactionalDB/indexedDB";
 import type {hwTypeVocab} from "../routes/home/tasks/categorize";
+import PouchDB from 'pouchdb-browser';
+import DeltaPouch from 'delta-pouch';
+PouchDB.plugin(DeltaPouch);
 
 export interface TimerTransaction {
   id: number,
@@ -49,10 +52,10 @@ export interface TimerState {
   taskId?: number,
 }
 
-const tasksDb = client.openDb("posts", 1) as Promise<TypedDatabase<{ posts: SavedTask }>>;
-const projectsDb = client.openDb("projects", 1) as Promise<TypedDatabase<{ projects: Project }>>;
-const coursesDb = client.openDb("courses", 1) as Promise<TypedDatabase<{ courses: Course }>>;
-const timerDb = client.openDb("timer", 1) as Promise<TypedDatabase<{ timer: TimerState }>>;
+const tasksDb = new PouchDB<SavedTask>("tasks");
+const projectsDb = new PouchDB<Project>("projects");
+const coursesDb = new PouchDB<Course>("courses");
+const timerDb = new PouchDB<TimerState>("timer");
 
 // TODO: wraps db modifications in a Svelte store
 function statefulDbAccessor() {

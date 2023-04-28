@@ -19,6 +19,10 @@
       asyncComponent: () => import('./routes/login/Login.svelte'),
     }),
 
+    '/test': wrap({
+      asyncComponent: () => import('./routes/DbTest.svelte'),
+    }),
+
     // // Wrapping the Book component
     // '/book/*': wrap({
     //   asyncComponent: () => import('./routes/Book.svelte')
