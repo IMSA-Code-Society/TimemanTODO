@@ -3,26 +3,12 @@
   import DeltaPouch from 'delta-pouch';
   import PouchFind from "pouchdb-find";
   import PouchFindLive from "pouchdb-live-find";
-  import type {Readable, Subscriber, Unsubscriber} from "svelte/store";
+  import LiveFindStore from "../db/liveFindStore";
 
   PouchDB.plugin(DeltaPouch);
   PouchDB.plugin(PouchFind);
   PouchDB.plugin(PouchFindLive);
-  const upstreamLiveFind = PouchDB.prototype.liveFind;
-  PouchDB.plugin(PouchDB => {
-    PouchDB.prototype.liveFindStore = function(requestDef: Parameters<typeof upstreamLiveFind>[0]): Readable<{}> {
-      console.log(this);
-      const liveFeed = upstreamLiveFind.call(this, requestDef);
-
-      return {
-        subscribe(run: Subscriber<{}>, invalidate: Invalidator<{}> | undefined): Unsubscriber {
-          run([]);
-          liveFeed.on('update', (update, aggregate) => run(aggregate));
-          return liveFeed.cancel;
-        }
-      }
-    };
-  });
+  PouchDB.plugin(LiveFindStore);
 
   const db = new PouchDB<{}>("test");
   db.deltaInit();
