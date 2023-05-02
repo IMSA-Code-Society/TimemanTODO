@@ -2,3 +2,4 @@ packages:
   - 'client/'
   - 'transactionalDB/'
   - 'Truth/'
+  - 'delta-pouch-find/'
