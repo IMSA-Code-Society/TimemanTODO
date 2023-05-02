@@ -2,7 +2,7 @@ import * as client from "transactionalDB/client"
 import type {TypedDatabase} from "transactionalDB/indexedDB";
 import type {hwTypeVocab} from "../routes/home/tasks/categorize";
 import PouchDB from 'pouchdb-browser';
-import DeltaPouch from 'delta-pouch';
+import * as DeltaPouch from 'delta-pouch';
 PouchDB.plugin(DeltaPouch);
 
 export interface TimerTransaction {
