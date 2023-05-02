@@ -4,8 +4,6 @@
   import PouchFind from "pouchdb-find";
   import PouchFindLive from "pouchdb-live-find";
   import type {Readable, Subscriber, Unsubscriber} from "svelte/store";
-  import type {SavedTask} from "../lib/api";
-  import {writable} from "svelte/store";
 
   PouchDB.plugin(DeltaPouch);
   PouchDB.plugin(PouchFind);
@@ -28,10 +26,6 @@
 
   const db = new PouchDB<{}>("test");
   db.deltaInit();
-  // db.delta
-  //   .on('create', refetch)
-  //   .on('update', refetch)
-  //   .on('delete', refetch);
 
   const liveFeed = db.liveFindStore({
     selector: {},  // {series: 'Mario'}
@@ -39,20 +33,10 @@
     aggregate: true
   });
 
-  // const liveFeed = writable([]);
-
-  // function refetch() {
-  //   db.all().then(function (docs) {
-  //     console.log(docs);
-  //     liveFeed.set(Object.values(docs));
-  //   });
-  // }
-  // refetch();
-
   let newTodo: string;
 
-  function submit(id=new Date().getTime(), title=undefined) {
-      db.save({ title: title ?? newTodo }).then(function (doc) {
+  function submit(id=undefined, title=undefined) {
+      db.save({ $id: id, title: title ?? newTodo }).then(function (doc) {
         console.log(doc);
         // doc.$id is the id of the created doc
       });
