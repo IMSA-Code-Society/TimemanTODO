@@ -10,6 +10,19 @@ import {memoryFilter} from "pouchdb-live-find/lib/helpers"
 import * as selectorCore from "pouchdb-selector-core";
 const {massageSelector, massageSort} = selectorCore;  // Don't question the names
 
+/** Access a database reactively
+ *
+ * Example usage:
+ * ```javascript
+ * const liveFeed = db.asSvelteStore({
+ *   selector: {series: 'Mario'},
+ *   sort: [{series: 'desc'}, {name: 'desc'}]
+ * });
+ * liveFeed.updateSearch({...differentOptions})
+ * ```
+ * @param PouchDB class to attach to the prototype (not an instance!)
+ * @see https://pouchdb.com/api.html#query_index
+ */
 function asSvelteStore(PouchDB: typeof PouchDBType) {
   PouchDB.prototype.asSvelteStore = function<T>(requestDef?: RequestDef<T>) {
     const db = this;
@@ -19,19 +32,32 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
     const store = writable([] as T[], set => {if (!set) db.close()});
     db.deltaInit();
     db.delta
-      .on('create', create => { state[create.$id] = create; filterNotify(); })
-      .on('update', changes => { state[changes.$id] = {...state[changes.$id], ...changes}; filterNotify(); })
+      .on('create', create => { if (filterDoc(create)) { state[create.$id] = create; filterNotify(); }})
+      .on('update', changes => {
+        const doc = {...state[changes.$id], ...changes};
+        if (filterDoc(doc))
+          state[changes.$id] = doc;
+        else
+          delete state[changes.$id];
+        filterNotify();
+      })
       .on('delete', id => { delete state[id]; filterNotify(); });
+
+    // Adapted from https://github.com/colinskow/pouchdb-live-find/blob/ab67d17acd0c927ec235780b3fe47cedb29ae0b0/lib/index.js#LL132C3-L138C4
+    function filterDoc(doc) {
+      if (requestDef == null)
+        return true;
+      const result = memoryFilter([doc], requestDef);
+      return result.length > 0;
+    }
 
     function filterNotify() {
       console.log(state);
-      store.set(
-        // TODO: sort
-        memoryFilter(
-          Object.values(state),
-         requestDef
-        )
-      );
+      const newState = Object.values(state);
+      if (requestDef) {
+        // TODO: sort `newState`
+      }
+      store.set(newState);
     }
 
     async function updateSearch(newRequestDef?: RequestDef<T>) {

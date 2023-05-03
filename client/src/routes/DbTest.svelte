@@ -12,10 +12,10 @@
 
   const db = new PouchDB<{}>("test");
 
-  const liveFeed = db.asSvelteStore({selector: {title: "three"}});
+  const liveFeed = db.asSvelteStore();
 
   let newTodo: string;
-  let filter = "three";
+  let filter: string;
   $: liveFeed.updateSearch({selector: {title: filter}});
 
   function submit(id=undefined, title=undefined) {
@@ -32,10 +32,10 @@
         Filter
         <input bind:value={filter} />
     </label>
-    {#each $liveFeed as todo}
+    {#each $liveFeed as todo (todo.$id)}
         <div>{JSON.stringify(todo)}</div>
         {todo.$id}
         <input value={todo.title} on:change={ev => submit(todo.$id, ev.target.value)} />
-        <button on:click={() => db.delete(todo._id).then(console.log)}>❎</button>
+        <button on:click={() => db.delete(todo.$id).then(console.log)}>❎</button>
     {/each}
 </div>
