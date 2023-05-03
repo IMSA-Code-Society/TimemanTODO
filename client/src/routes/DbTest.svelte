@@ -11,11 +11,11 @@
   PouchDB.plugin(AsSvelteStore);
 
   const db = new PouchDB<{}>("test");
-  db.createIndex({
-    index: {
-      fields: ['title'],
-    },
-  });
+  // db.createIndex({
+  //   index: {
+  //     fields: ['title'],
+  //   },
+  // });
 
   // Sort requires an index and selector to work.
   // TODO: figure out why "remove" is undefined when sorting
