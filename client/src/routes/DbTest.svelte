@@ -11,7 +11,15 @@
   PouchDB.plugin(AsSvelteStore);
 
   const db = new PouchDB<{}>("test");
+  db.createIndex({
+    index: {
+      fields: ['title'],
+    },
+  });
 
+  // Sort requires an index and selector to work.
+  // TODO: figure out why "remove" is undefined when sorting
+  // {selector: {title: "three"}, sort: [{title: 'desc'}]}
   const liveFeed = db.asSvelteStore();
 
   let newTodo: string;

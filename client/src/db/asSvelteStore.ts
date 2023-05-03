@@ -6,7 +6,7 @@
 import type {Readable} from "svelte/types/runtime/store";
 import type PouchDBType from "pouchdb-browser";
 import {writable} from "svelte/store";
-import {memoryFilter} from "pouchdb-live-find/lib/helpers"
+import {memoryFilter, createFieldSorter} from "pouchdb-live-find/lib/helpers"
 import * as selectorCore from "pouchdb-selector-core";
 const {massageSelector, massageSort} = selectorCore;  // Don't question the names
 
@@ -32,16 +32,16 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
     const store = writable([] as T[], set => {if (!set) db.close()});
     db.deltaInit();
     db.delta
-      .on('create', create => { if (filterDoc(create)) { state[create.$id] = create; filterNotify(); }})
+      .on('create', create => { if (filterDoc(create)) { state[create.$id] = create; notify(); }})
       .on('update', changes => {
         const doc = {...state[changes.$id], ...changes};
         if (filterDoc(doc))
           state[changes.$id] = doc;
         else
           delete state[changes.$id];
-        filterNotify();
+        notify();
       })
-      .on('delete', id => { delete state[id]; filterNotify(); });
+      .on('delete', id => { delete state[id]; notify(); });
 
     // Adapted from https://github.com/colinskow/pouchdb-live-find/blob/ab67d17acd0c927ec235780b3fe47cedb29ae0b0/lib/index.js#LL132C3-L138C4
     function filterDoc(doc) {
@@ -51,25 +51,28 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
       return result.length > 0;
     }
 
-    function filterNotify() {
+    function notify() {
       console.log(state);
       const newState = Object.values(state);
-      if (requestDef) {
-        // TODO: sort `newState`
-      }
+      if (requestDef.sortFn)
+        newState.sort(requestDef.sortFn);
       store.set(newState);
     }
 
     async function updateSearch(newRequestDef?: RequestDef<T>) {
       if (newRequestDef) {
-        requestDef = newRequestDef;
+        // Merge old & new requestDef (eg. keep sort, but change filter)
+        requestDef = newRequestDef ? {...(requestDef ?? {}), ...newRequestDef} : requestDef;
+
         // Adapted from https://github.com/colinskow/pouchdb-live-find/blob/ab67d17acd0c927ec235780b3fe47cedb29ae0b0/lib/index.js#LL40C2-L47C4
         if(requestDef.selector) {
           requestDef.selector = massageSelector(requestDef.selector);
         }
         if(requestDef.sort) {
-          requestDef.sort = massageSort(requestDef.sort);
-          //sortFn = helpers.createFieldSorter(sort); TODO
+          // TODO: why doesn't massageSort exist
+          //requestDef.sort = massageSort(requestDef.sort);
+          // createFieldSorter exists in both pouchdb-live-search & pouchdb-selector-core, which are slightly different
+          requestDef.sortFn = createFieldSorter(requestDef.sort);
         }
 
         state = {};
@@ -81,7 +84,7 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
       } else {
         state = await db.all();
       }
-      filterNotify();
+      notify();
     }
     updateSearch(requestDef);
 
