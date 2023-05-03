@@ -31,6 +31,7 @@
     "pouchdb-browser": "^7",
     "pouchdb-find": "^8.0.1",
     "pouchdb-live-find": "^0.4.0",
+    "pouchdb-selector-core": "^8.0.1",
     "seedrandom": "^3.0.5",
     "svelte-spa-router": "^3.3.0",
     "transactionaldb": "workspace:*"

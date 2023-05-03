@@ -6,21 +6,19 @@ import type PouchDBType from 'pouchdb-browser';
  * Example usage:
  * const liveFeed = db.liveFindStore({
  *   selector: {series: 'Mario'},
- *   sort: [{series: 'desc'}, {name: 'desc'}],
- *   aggregate: true
+ *   sort: [{series: 'desc'}, {name: 'desc'}]
  * });
  * @param PouchDB class to attach to the prototype (not an instance!)
  */
 function liveFindStore(PouchDB: typeof PouchDBType) {
   const upstreamLiveFind = PouchDB.prototype.liveFind;
-  PouchDB.prototype.liveFindStore = function(requestDef: Parameters<typeof upstreamLiveFind>[0]): Readable<{}> {
-    console.log(this);
+  PouchDB.prototype.liveFindStore = function<T>(requestDef: RequestDef<T>): Readable<T[]> {
     const liveFeed = upstreamLiveFind.call(this, requestDef);
 
     return {
-      subscribe(run: Subscriber<{}>, invalidate: Invalidator<{}> | undefined): Unsubscriber {
+      subscribe(run: Subscriber<T[]>, invalidate: Invalidator<T[]> | undefined): Unsubscriber {
         run([]);
-        liveFeed.on('update', (update, aggregate) => run(aggregate));
+        liveFeed.on('update', (update, aggregate) => run(aggregate ?? []));
         return liveFeed.cancel;
       }
     }
