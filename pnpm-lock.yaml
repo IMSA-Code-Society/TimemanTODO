@@ -55,7 +55,7 @@ importers:
       chrono-node: ^2.6.2
       delta-pouch: workspace:*
       nodemon: ^2.0.12
-      pouchdb-browser: '7'
+      pouchdb-browser: ^7
       pouchdb-find: ^8.0.1
       pouchdb-live-find: ^0.4.0
       seedrandom: ^3.0.5
