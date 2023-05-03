@@ -3,20 +3,16 @@
   import DeltaPouch from 'delta-pouch';
   import PouchFind from "pouchdb-find";
   import PouchFindLive from "pouchdb-live-find";
-  import LiveFindStore from "../db/liveFindStore";
   import AsSvelteStore from "../db/asSvelteStore";
 
   PouchDB.plugin(DeltaPouch);
   PouchDB.plugin(PouchFind);
   PouchDB.plugin(PouchFindLive);
-  // PouchDB.plugin(LiveFindStore);
   PouchDB.plugin(AsSvelteStore);
 
   const db = new PouchDB<{}>("test");
-  //db.deltaInit();
 
   const liveFeed = db.asSvelteStore({selector: {title: "three"}});
-  // const liveFeed = db.liveFindStore({selector: {title: "three"}});
 
   let newTodo: string;
   let filter = "three";

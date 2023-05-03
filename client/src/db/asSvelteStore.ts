@@ -3,7 +3,7 @@
 //   asSvelteStore(): Readable<T>;
 // }
 
-import type {Readable, Subscriber, Unsubscriber} from "svelte/types/runtime/store";
+import type {Readable} from "svelte/types/runtime/store";
 import type PouchDBType from "pouchdb-browser";
 import {writable} from "svelte/store";
 import {memoryFilter} from "pouchdb-live-find/lib/helpers"
