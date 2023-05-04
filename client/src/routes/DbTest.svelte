@@ -4,6 +4,7 @@
   import PouchFind from "pouchdb-find";
   import PouchFindLive from "pouchdb-live-find";
   import AsSvelteStore from "../db/asSvelteStore";
+  import {readable} from "svelte/store";
 
   PouchDB.plugin(DeltaPouch);
   PouchDB.plugin(PouchFind);
@@ -11,20 +12,20 @@
   PouchDB.plugin(AsSvelteStore);
 
   const db = new PouchDB<{}>("test");
-  // db.createIndex({
-  //   index: {
-  //     fields: ['title'],
-  //   },
-  // });
+  db.createIndex({
+    index: {
+      fields: ['title'],
+    },
+  }).then(() => liveFeed = db.asSvelteStore());
 
   // Sort requires an index and selector to work.
   // TODO: figure out why "remove" is undefined when sorting
   // {selector: {title: "three"}, sort: [{title: 'desc'}]}
-  const liveFeed = db.asSvelteStore();
+  let liveFeed = readable([]) as ReturnType<typeof db.asSvelteStore>;
 
   let newTodo: string;
   let filter: string;
-  $: liveFeed.updateSearch({selector: {title: filter}});
+  $: liveFeed.updateSearch?.({selector: {title: filter}});
 
   function submit(id=undefined, title=undefined) {
       db.save({ $id: id, title: title ?? newTodo }).then(function (doc) {
