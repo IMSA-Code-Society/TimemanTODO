@@ -1,8 +1,3 @@
-// Extend prototype with generics according to https://stackoverflow.com/a/52514102
-// interface PouchDB<T> {
-//   asSvelteStore(): Readable<T>;
-// }
-
 import type {Readable} from "svelte/types/runtime/store";
 import type PouchDBType from "pouchdb-browser";
 import {writable} from "svelte/store";
