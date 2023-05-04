@@ -4,7 +4,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, ssrBuild }) => ({
   plugins: [svelte()],
-  base: "TimemanTODO/",
+  base: "/TimemanTODO",
   define: {
     // Vite doesn't include shims for Node globals, & pouchDb dependency uses it (see https://github.com/calvinmetcalf/immediate/pull/40)
     global: mode === "development" ? {} : "global",
