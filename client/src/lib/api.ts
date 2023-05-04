@@ -1,5 +1,5 @@
-import * as client from "transactionalDB/client"
-import type {TypedDatabase} from "transactionalDB/indexedDB";
+import * as client from "transactionaldb/client"
+import type {TypedDatabase} from "transactionaldb/indexedDB";
 import type {hwTypeVocab} from "../routes/home/tasks/categorize";
 import PouchDB from 'pouchdb-browser';
 import * as DeltaPouch from 'delta-pouch';

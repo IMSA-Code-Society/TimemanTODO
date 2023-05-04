@@ -1,4 +1,4 @@
-import type { TypedDatabase } from "transactionalDB/indexedDB";
+import type { TypedDatabase } from "transactionaldb/indexedDB";
 import type {SavedTask} from "./api";
 
 export default class Database {
