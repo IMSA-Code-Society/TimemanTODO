@@ -44,7 +44,7 @@ importers:
 
   client:
     specifiers:
-      '@sveltejs/vite-plugin-svelte': ^2.0.3
+      '@sveltejs/vite-plugin-svelte': ^2.1.1
       '@tensorflow-models/universal-sentence-encoder': ^1.3.3
       '@tensorflow/tfjs': ^3.9.0
       '@tensorflow/tfjs-converter': ^4.2.0
@@ -66,7 +66,7 @@ importers:
       transactionaldb: workspace:*
       tslib: ^2.5.0
       typescript: ^4.9.3
-      vite: ^4.2.0
+      vite: ^4.3.4
     dependencies:
       '@tensorflow-models/universal-sentence-encoder': 1.3.3_qne7mueqdw53ilt6wafmgow6iy
       '@tensorflow/tfjs': 3.21.0_seedrandom@3.0.5
@@ -83,7 +83,7 @@ importers:
       svelte-spa-router: 3.3.0
       transactionaldb: link:../transactionalDB
     devDependencies:
-      '@sveltejs/vite-plugin-svelte': 2.0.4_svelte@3.58.0+vite@4.2.1
+      '@sveltejs/vite-plugin-svelte': 2.1.1_svelte@3.58.0+vite@4.3.4
       '@tsconfig/svelte': 3.0.0
       '@types/pouchdb-browser': 6.1.3
       '@types/pouchdb-live-find': 0.4.1
@@ -91,7 +91,7 @@ importers:
       svelte-check: 2.10.3_svelte@3.58.0
       tslib: 2.5.0
       typescript: 4.9.5
-      vite: 4.2.1
+      vite: 4.3.4
 
   delta-pouch-find:
     specifiers:
@@ -1093,8 +1093,8 @@ packages:
   /@socket.io/component-emitter/3.1.0:
     resolution: {integrity: sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==}
 
-  /@sveltejs/vite-plugin-svelte/2.0.4_svelte@3.58.0+vite@4.2.1:
-    resolution: {integrity: sha512-pjqhW00KwK2uzDGEr+yJBwut+D+4XfJO/+bHHdHzPRXn9+1Jeq5JcFHyrUiYaXgHtyhX0RsllCTm4ssAx4ZY7Q==}
+  /@sveltejs/vite-plugin-svelte/2.1.1_svelte@3.58.0+vite@4.3.4:
+    resolution: {integrity: sha512-7YeBDt4us0FiIMNsVXxyaP4Hwyn2/v9x3oqStkHU3ZdIc5O22pGwUwH33wUqYo+7Itdmo8zxJ45Qvfm3H7UUjQ==}
     engines: {node: ^14.18.0 || >= 16}
     peerDependencies:
       svelte: ^3.54.0
@@ -1106,8 +1106,8 @@ packages:
       magic-string: 0.30.0
       svelte: 3.58.0
       svelte-hmr: 0.15.1_svelte@3.58.0
-      vite: 4.2.1
-      vitefu: 0.2.4_vite@4.2.1
+      vite: 4.3.4
+      vitefu: 0.2.4_vite@4.3.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6139,8 +6139,8 @@ packages:
       find-up: 4.1.0
     dev: true
 
-  /postcss/8.4.21:
-    resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
+  /postcss/8.4.23:
+    resolution: {integrity: sha512-bQ3qMcpF6A/YjR55xtoTr0jGOlnPOKAIMdOWiv0EIT6HVPEaJiJB4NLljSbiHoC2RX7DN5Uvjtpbg1NPdwv1oA==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.6
@@ -6885,8 +6885,8 @@ packages:
       inherits: 2.0.4
     dev: true
 
-  /rollup/3.20.2:
-    resolution: {integrity: sha512-3zwkBQl7Ai7MFYQE0y1MeQ15+9jsi7XxfrqwTb/9EK8D9C9+//EBR4M+CuA1KODRaNbFez/lWxA5vhEGZp4MUg==}
+  /rollup/3.21.4:
+    resolution: {integrity: sha512-N5LxpvDolOm9ueiCp4NfB80omMDqb45ShtsQw2+OT3f11uJ197dv703NZvznYHP6RWR85wfxanXurXKG3ux2GQ==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -8156,8 +8156,8 @@ packages:
       extsprintf: 1.3.0
     dev: true
 
-  /vite/4.2.1:
-    resolution: {integrity: sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==}
+  /vite/4.3.4:
+    resolution: {integrity: sha512-f90aqGBoxSFxWph2b39ae2uHAxm5jFBBdnfueNxZAT1FTpM13ccFQExCaKbR2xFW5atowjleRniQ7onjJ22QEg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -8182,14 +8182,13 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.17.15
-      postcss: 8.4.21
-      resolve: 1.22.2
-      rollup: 3.20.2
+      postcss: 8.4.23
+      rollup: 3.21.4
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitefu/0.2.4_vite@4.2.1:
+  /vitefu/0.2.4_vite@4.3.4:
     resolution: {integrity: sha512-fanAXjSaf9xXtOOeno8wZXIhgia+CZury481LsDaV++lSvcU2R9Ch2bPh3PYFyoHW+w9LqAeYRISVQjUIew14g==}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0
@@ -8197,7 +8196,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.2.1
+      vite: 4.3.4
     dev: true
 
   /vm-browserify/1.1.2:
