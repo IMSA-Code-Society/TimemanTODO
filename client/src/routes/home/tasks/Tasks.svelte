@@ -1,17 +1,18 @@
 <script lang="ts">
     import TaskSection from "./TaskSection.svelte";
     import Task from "./Task.svelte";
-    import {getAllTasks} from "../../../lib/api";
+    import {db, Table} from "../../../lib/api";
     import {DAY, MILLISECOND} from "../../../lib/Units";
     import TimePeriod from "../../../lib/TimePeriod";
 
     export let currentTab: number = -1;
 
-    let tasks = getAllTasks();
+    let tasks = db.asSvelteStore({selector: {table: Table.TASK}});
     // Mapping of tasks split up by time. Maps "today", "tomorrow", etc. to their respective tasks
-    const timeSections = tasks.then(tasks => {
-      const timeSections = [...Array(Object.keys(TimePeriod).length / 2)].map(() => [] as typeof tasks);
-      for (const task of tasks) {
+    let timeSections;
+    $: {
+      timeSections = [...Array(Object.keys(TimePeriod).length / 2)].map(() => [] as typeof tasks);
+      for (const task of $tasks) {
         // Midnight today (in the past, not future)
         const today = new Date().setHours(0, 0, 0, 0) * MILLISECOND;
         const due = task.due * MILLISECOND;
@@ -26,15 +27,12 @@
         else
           timeSections[TimePeriod.Later].push(task);
       }
-      return timeSections;
-    });
+    }
 </script>
 
 <div style="padding-bottom: 78px">
   <Task isNew={true} />
-  {#await timeSections then timeSections}
-      {#each timeSections as tasks, timePeriod}
-          <TaskSection due={timePeriod} tasks={currentTab == -1 ?tasks : tasks.filter(task => task.projectId == currentTab)} />
-      {/each}
-  {/await}
+  {#each timeSections as tasks, timePeriod}
+      <TaskSection due={timePeriod} tasks={currentTab == -1 ?tasks : tasks.filter(task => task.projectId == currentTab)} />
+  {/each}
 </div>

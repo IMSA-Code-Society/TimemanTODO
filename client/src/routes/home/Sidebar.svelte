@@ -1,17 +1,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script lang="ts">
-    import { createProject, getAllProjects, createCourse, getAllCourses} from "../../lib/api";
+    import {db, Table} from "../../lib/api";
     import {link} from 'svelte-spa-router';
 
     // Which project or course to view
     let currentTab: number;
 
+    const allProjects = db.asSvelteStore({selector: {table: Table.PROJECT}});
+    const allCourses = allProjects;
+
     function newProj() {
-        createProject({id: null, name: prompt("Name your project"), owner: 1});
+        db.save({table: Table.PROJECT, name: prompt("Name your project"), owner: 1});
     }
 
     function newCourse(){
-        createCourse({id: null, name: prompt("Name your class"), owner: 1});
+        db.save({table: Table.PROJECT, name: prompt("Name your class"), owner: 1});
     }
 </script>
 <div class="container">
@@ -22,22 +25,18 @@
         <br><br>
         <h3>Classes</h3>
         <ul class = "courseProjectList">
-            {#await getAllCourses() then allCourses}
-                {#each allCourses as course}
-                    <li><button class="courseProjectButton" on:click={() => currentTab = course.id}><i class="fa fa-book"></i> {course.name}</button></li>
-                {/each}
-            {/await}
+            {#each $allCourses as course}
+                <li><button class="courseProjectButton" on:click={() => currentTab = course.id}><i class="fa fa-book"></i> {course.name}</button></li>
+            {/each}
             <li><button class="courseProjectButton" on:click={newCourse}> <i class="fa fa-plus"></i> New Class</button></li>
         </ul>
         <hr>
         <br>
         <h3>Projects</h3>
         <ul class = "courseProjectList">
-            {#await getAllProjects() then allProjects}
-                {#each allProjects as project}
-                    <li><button class="courseProjectButton" on:click={() => currentTab = project.id}>{project.name}</button></li>
-                {/each}
-            {/await}
+            {#each $allProjects as project}
+                <li><button class="courseProjectButton" on:click={() => currentTab = project.id}>{project.name}</button></li>
+            {/each}
             <li><button class="courseProjectButton" on:click={newProj}>Add Project</button></li>
         </ul>
         <a href="/login" use:link><button class="courseProjectButton">Login</button></a>

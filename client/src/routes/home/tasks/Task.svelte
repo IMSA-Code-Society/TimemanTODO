@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as chrono from 'chrono-node';
     import {count, findMostSimilar, hwTypeVocab} from "./categorize";
-    import {createTask, getAllCoursesAndProjects, getAllProjects, type SavedTask} from "../../../lib/api";
+    import {db, type SavedTask, Table} from "../../../lib/api";
     import TimeEstimator from "./TimeEstimator.svelte";
     import { link } from 'svelte-spa-router';
     import CorseProjectSelect from "../../../lib/CourseProjectSelect.svelte";
@@ -11,7 +11,7 @@
     let hasFocus = isNew;
 
     export let taskData: Partial<SavedTask> = {};
-    taskData = {description: "", predictedTime: 0, title: "", category: "homework", ...taskData};
+    taskData = {table: Table.TASK, description: "", predictedTime: 0, title: "", category: "homework", ...taskData};
 
     function autosuggest(ev) {
         const assignment = ev.target.value;
@@ -51,7 +51,7 @@
     // Called whenever a Task is created or updated. Saves & syncs changes. Creates new Task entry if it doesn't already exist
     function submitOrUpdate() {
       if (isNew)
-        createTask(taskData);
+        db.save(taskData);
       else
         console.error("Editing tasks not implemented yet!");
     }

@@ -1,10 +1,12 @@
 <script lang="ts">
-    import {getAllCoursesAndProjects} from "./api";
+  import {db, Table} from "./api";
+
+    const allProjects = db.asSvelteStore({selector: {table: Table.PROJECT}});
 
     export let value: number;
 </script>
 
-{#await getAllCoursesAndProjects() then allProjects}
+{#await $allProjects then allProjects}
     <select bind:value>
         {#each allProjects as project}
             <option value={project.id}>{project.name}</option>

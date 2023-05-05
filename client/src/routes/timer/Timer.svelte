@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getTask } from "../../lib/api";
+  import {db} from "../../lib/api";
     import {sharedElementTransition} from "../../lib/transitions";
     import Modal from "./Modal.svelte";
     import CourseProjectSelect from "../../lib/CourseProjectSelect.svelte";
@@ -8,7 +8,7 @@
 
     const [send, receive] = sharedElementTransition;
     const openTarget = new EventTarget();
-    const task = getTask(Number.parseInt(params.task));
+    const task = db.asSvelteStore({selector: {$id: Number.parseInt(params.task)}});
     task.then(task => {
         console.log(params.task, task);
         goal = task.title;

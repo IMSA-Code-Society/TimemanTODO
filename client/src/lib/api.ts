@@ -1,15 +1,25 @@
-import * as client from "transactionaldb/client"
-import type {TypedDatabase} from "transactionaldb/indexedDB";
 import type {hwTypeVocab} from "../routes/home/tasks/categorize";
 import PouchDB from 'pouchdb-browser';
-import * as DeltaPouch from 'delta-pouch';
+import DeltaPouch from 'delta-pouch';
+import AsSvelteStore from "../db/asSvelteStore";
+import PouchFind from "pouchdb-find";
+import PouchFindLive from "pouchdb-live-find";
 PouchDB.plugin(DeltaPouch);
+PouchDB.plugin(PouchFind);
+PouchDB.plugin(PouchFindLive);
+PouchDB.plugin(AsSvelteStore);
 
-export interface TimerTransaction {
-  id: number,
+export interface DbDoc {
+  // You should probably use `$id` instead, it is computed for delta db
+  // _id: string,
+  $id: string,
+  $createdAt: string,
+}
+
+export interface TimerState extends DbDoc {
+  table: Table.TIMER,
   startTime: number,
-  endTime: number,
-  taskId: number,
+  taskId?: number,
 }
 
 export interface Accomplishment {
@@ -28,123 +38,29 @@ export interface Task {
 }
 
 // Represents a task after it's been committed to the database
-// TODO: replace with DatabaseResource so all types can share it
-export interface SavedTask extends Task {
-  id: number,
+export type SavedTask = Task & DbDoc & {table: Table.TASK};
+
+export type DbResource<Payload> = DbDoc & Payload;
+
+// BEWARE of changing this if
+export enum Table {
+  PROJECT,
+  TIMER,
+  TASK,
 }
 
-
-export interface Project {
-  id: number,
+export interface Project extends DbDoc {
+  table: Table.PROJECT,
   name: string,
   owner: number,
+  isShared: boolean,
 }
 
-export interface Course {
-  id: number,
-  name: string,
-  owner: number,
-}
 
-export interface TimerState {
-  id: number,
-  elapsedTime: number,
-  taskId?: number,
-}
+// Add properties as necessary
+// export interface SharedProject extends Project {}
 
-const tasksDb = new PouchDB<SavedTask>("tasks");
-const projectsDb = new PouchDB<Project>("projects");
-const coursesDb = new PouchDB<Course>("courses");
-const timerDb = new PouchDB<TimerState>("timer");
+export type Pouch = SavedTask | Project | TimerState;
 
-// TODO: wraps db modifications in a Svelte store
-function statefulDbAccessor() {
-
-}
-
-// TODO: export const taskManager = new TaskManager();  // TaskManager contains stateful functions like createTask & getAllTasks
-
-export function createTask(task: Task) {
-  client.makeCommit({
-    operation: "create",
-    database: "posts",
-    payloadValue: JSON.stringify({...task, id: new Date().getTime()}),
-  });
-}
-
-export function createProject(project: Project) {
-  client.makeCommit({
-    operation: "create",
-    database: "projects",
-    payloadValue: JSON.stringify({...project, id: new Date().getTime()}),
-  });
-}
-
-export function createCourse(course: Course) {
-  client.makeCommit({
-    operation: "create",
-    database: "courses",
-    payloadValue: JSON.stringify({...course, id: new Date().getTime()}),
-  });
-}
-
-export async function getAllTasks(): Promise<SavedTask[]> {
-  // TODO: abstract the promise & request.onsuccess (probably with statefulDbAccessor)
-  return new Promise(async res => {
-    try {
-      const request = (await tasksDb).transaction("posts").objectStore("posts").getAll();
-      request.onsuccess = () => res(request.result);
-    } catch (err) {
-      // Errored because the db does not exist yet. TODO: more elegant way of handling this
-      console.error(err);
-      res([]);
-    }
-  });
-}
-
-export async function getTask(id: number): Promise<SavedTask | undefined> {
-  // TODO: abstract the promise & request.onsuccess (probably with statefulDbAccessor)
-  return new Promise(async res => {
-    try {
-      const request = (await tasksDb).transaction("posts").objectStore("posts").get(id);
-      request.onsuccess = () => res(request.result);
-    } catch (err) {
-      // Errored because the db does not exist yet. TODO: more elegant way of handling this
-      console.error(err);
-      res(undefined);
-    }
-  });
-}
-
-export async function getAllProjects(): Promise<Project[]> {
-  // TODO: abstract the promise & request.onsuccess (probably with statefulDbAccessor)
-  return new Promise(async res => {
-    try {
-      const request = (await projectsDb).transaction("projects").objectStore("projects").getAll();
-      request.onsuccess = () => res(request.result);
-    } catch (err) {
-      // Errored because the db does not exist yet. TODO: more elegant way of handling this
-      console.error(err);
-      res([]);
-    }
-  });
-}
-
-export async function getAllCourses(): Promise<Course[]> {
-  // TODO: abstract the promise & request.onsuccess (probably with statefulDbAccessor)
-  return new Promise(async res => {
-    try {
-      const request = (await coursesDb).transaction("courses").objectStore("courses").getAll();
-      request.onsuccess = () => res(request.result);
-    } catch (err) {
-      // Errored because the db does not exist yet. TODO: more elegant way of handling this
-      console.error(err);
-      res([]);
-    }
-  });
-}
-
-export async function getAllCoursesAndProjects() {
-  const [courses, projects] = await Promise.all([getAllCourses(), getAllProjects()])
-  return [...courses, ...projects];
-}
+export const db = new PouchDB<Pouch>("timeman");
+//export const dbIndexReady = db.createIndex();
