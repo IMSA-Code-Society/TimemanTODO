@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --force",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
@@ -27,7 +27,7 @@
     "@tensorflow/tfjs-converter": "^4.2.0",
     "@tensorflow/tfjs-core": "^4.2.0",
     "chrono-node": "^2.6.2",
-    "delta-pouch": "file:../delta-pouch-find",
+    "delta-pouch": "workspace:*",
     "nodemon": "^2.0.12",
     "pouchdb-browser": "^7",
     "pouchdb-find": "^7",

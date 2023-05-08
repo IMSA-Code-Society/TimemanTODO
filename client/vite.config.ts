@@ -5,6 +5,7 @@ import * as path from "path";
 // Despite Vite supposedly supporting `require` (https://github.com/vitejs/vite/pull/8459), it does not work for my custom `delta-pouch`
 // Tried `@originjs/vite-plugin-commonjs`, but it only works in dev. Had to change package.json from `workspace:` to `file:`
 // See https://github.com/vitejs/vite/issues/2679#issuecomment-898940091
+// Or, modify config (should've read docs): https://vitejs.dev/guide/dep-pre-bundling.html#monorepos-and-linked-dependencies
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, ssrBuild }) => ({
@@ -14,6 +15,14 @@ export default defineConfig(({ command, mode, ssrBuild }) => ({
     alias:{
       '@' : path.resolve(__dirname, './src'),
       '$lib' : path.resolve(__dirname, './src/lib'),
+    },
+  },
+  optimizeDeps: {
+    include: ['delta-pouch'],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/delta-pouch/, /node_modules/],
     },
   },
   define: {
