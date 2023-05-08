@@ -1,20 +1,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script lang="ts">
-    import {db, Table} from "../../lib/api";
+    import { createProject, getAllProjects, createCourse, getAllCourses} from "../../lib/api";
     import {link} from 'svelte-spa-router';
 
     // Which project or course to view
     let currentTab: number;
 
-    const allProjects = db.asSvelteStore({selector: {table: Table.PROJECT}});
-    const allCourses = allProjects;
+    const allProjects = getAllProjects();
+    const allCourses = getAllCourses();
 
     function newProj() {
-        db.save({table: Table.PROJECT, name: prompt("Name your project"), owner: 1});
+        createProject({name: prompt("Name your project"), color: "TODO"});
     }
 
     function newCourse(){
-        db.save({table: Table.PROJECT, name: prompt("Name your class"), owner: 1});
+        createCourse({name: prompt("Name your class"), color: "TODO"});
     }
 </script>
 <div class="container">

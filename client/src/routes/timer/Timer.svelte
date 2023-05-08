@@ -1,22 +1,17 @@
 <script lang="ts">
-  import {db} from "../../lib/api";
+    import { getTask } from "../../lib/api";
     import {sharedElementTransition} from "../../lib/transitions";
     import Modal from "./Modal.svelte";
     import CourseProjectSelect from "../../lib/CourseProjectSelect.svelte";
 
-    export let params: {task?: number};
+    export let params: {task?: string};
 
     const [send, receive] = sharedElementTransition;
     const openTarget = new EventTarget();
-    const task = db.asSvelteStore({selector: {$id: Number.parseInt(params.task)}});
-    task.then(task => {
-        console.log(params.task, task);
-        goal = task.title;
-        allocTime = task.predictedTime;
-    });
-
-    let allocTime: number | undefined;
-    let goal: string;
+    const task = getTask(params.task);
+    console.log(params.task, $task);
+    let allocTime: number | undefined = $task.predictedTime;
+    let goal = $task.title;
 
     function start() {
 

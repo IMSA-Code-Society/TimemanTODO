@@ -5,6 +5,8 @@ import {memoryFilter, createFieldSorter} from "pouchdb-live-find/lib/helpers"
 import * as selectorCore from "pouchdb-selector-core";
 const {massageSelector, massageSort} = selectorCore;  // Don't question the names
 
+export type DbStore<T> = Readable<T[]> & {updateSearch: (newRequestDef?: RequestDef<T>) => Promise<void>};
+
 /** Access a database reactively
  *
  * Example usage:
@@ -49,7 +51,7 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
     function notify() {
       console.log(state);
       const newState = Object.values(state);
-      if (requestDef.sortFn)
+      if (requestDef?.sortFn)
         newState.sort(requestDef.sortFn);
       store.set(newState);
     }
@@ -87,7 +89,7 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
     return {
       subscribe: store.subscribe,
       updateSearch,
-    } as Readable<T[]> & {updateSearch: typeof updateSearch};  // Cast to more readable format
+    } as DbStore<T>;  // Cast to more readable format
   };
 }
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import {db, Table} from "./api";
+    import {getAllCoursesAndProjects} from "./api";
 
-    const allProjects = db.asSvelteStore({selector: {table: Table.PROJECT}});
+    const allProjects = getAllCoursesAndProjects();
 
     export let value: number;
 </script>

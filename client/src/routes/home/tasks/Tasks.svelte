@@ -1,13 +1,13 @@
 <script lang="ts">
     import TaskSection from "./TaskSection.svelte";
     import Task from "./Task.svelte";
-    import {db, Table} from "../../../lib/api";
+    import {getAllTasks} from "../../../lib/api";
     import {DAY, MILLISECOND} from "../../../lib/Units";
     import TimePeriod from "../../../lib/TimePeriod";
 
     export let currentTab: number = -1;
 
-    let tasks = db.asSvelteStore({selector: {table: Table.TASK}});
+    let tasks = getAllTasks();
     // Mapping of tasks split up by time. Maps "today", "tomorrow", etc. to their respective tasks
     let timeSections;
     $: {
