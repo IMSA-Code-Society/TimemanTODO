@@ -49,7 +49,7 @@ function asSvelteStore(PouchDB: typeof PouchDBType) {
     }
 
     function notify() {
-      console.log(state);
+      console.log(db.name, state);
       const newState = Object.values(state);
       if (requestDef?.sortFn)
         newState.sort(requestDef.sortFn);

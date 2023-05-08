@@ -50,10 +50,7 @@
 
     // Called whenever a Task is created or updated. Saves & syncs changes. Creates new Task entry if it doesn't already exist
     function submitOrUpdate() {
-      if (isNew)
-        createTask(taskData);
-      else
-        console.error("Editing tasks not implemented yet!");
+      createTask(taskData);
     }
 </script>
 
