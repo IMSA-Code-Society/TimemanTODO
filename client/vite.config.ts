@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 import * as path from "path";
+
+// Despite Vite supposedly supporting `require` (https://github.com/vitejs/vite/pull/8459), it does not work for my custom `delta-pouch`
+// Tried `@originjs/vite-plugin-commonjs`, but it only works in dev. Had to change package.json from `workspace:` to `file:`
+// See https://github.com/vitejs/vite/issues/2679#issuecomment-898940091
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, ssrBuild }) => ({
-  // Despite Vite supposedly supporting `require` (https://github.com/vitejs/vite/pull/8459), it does not work for my custom `delta-pouch`
-  plugins: [viteCommonjs(), svelte()],
+  plugins: [svelte()],
   base: "/TimemanTODO",
   resolve:{
     alias:{
