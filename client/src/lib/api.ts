@@ -5,7 +5,7 @@ import AsSvelteStore, {type DbStore} from "../db/asSvelteStore";
 import PouchFind from "pouchdb-find";
 import PouchFindLive from "pouchdb-live-find";
 import {derived} from "svelte/store";
-PouchDB.plugin(DeltaPouch);
+PouchDB.plugin(DeltaPouch.default);
 PouchDB.plugin(PouchFind);
 PouchDB.plugin(PouchFindLive);
 PouchDB.plugin(AsSvelteStore);
