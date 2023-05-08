@@ -9,9 +9,13 @@
     const [send, receive] = sharedElementTransition;
     const openTarget = new EventTarget();
     const task = getTask(params.task);
-    console.log(params.task, $task);
-    let allocTime: number | undefined = $task.predictedTime;
-    let goal = $task.title;
+    let allocTime: number | null;
+    let goal: string;
+    $: {
+      console.log(params.task, $task);
+      allocTime = $task.predictedTime || null;
+      goal = $task.title;
+    }
 
     function start() {
 

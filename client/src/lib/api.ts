@@ -82,7 +82,7 @@ export function getAllTasks() {
 }
 
 export function getTask(id: string) {
-  return derived(tasksDb.asSvelteStore({selector: {$id: id}}), values => values[0]);
+  return derived(tasksDb.asSvelteStore({selector: {$id: id}}), values => values[0] ?? {} as Partial<typeof values[number]>);
 }
 
 export function getAllProjects() {
