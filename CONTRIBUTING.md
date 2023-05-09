@@ -31,7 +31,9 @@ timemanTODO/
 - **Node.js:** backend JavaScript runtime.
 - **CouchDb & PouchDb:** Database. Provides the most features out-of-the-box: replication, delta docs, clarity, and extensibility. Alternatives considered:
   - Dexie: Although nice API, [have to implement replication from scratch](https://dexie.org/docs/Syncable/Dexie.Syncable.ISyncProtocol). No community packages, [only one 5 yr old](https://www.npmjs.com/package/sync-server). Or, get locked into their service & pay
-  - Custom implementation: works well, but still rough edges & unfinished API. No live updates. Not worth polishing when easy solutions exist
+  - Custom implementation: works well, but still rough edges & unfinished API. No live updates. Not worth polishing when easy solutions exist.
+    Recently however, I've been considering this again b/c of everything being together, making shared projects & courses easier.
+    For now, put that on hold. Consider using cover couch, but it seems like needless complexity
   - RXDB: bad conflict resolution, [cannot use delta doc pattern](https://rxdb.info/transactions-conflicts-revisions.html#custom-conflict-handler)
 
 ## Setup & Contributing
