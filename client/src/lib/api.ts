@@ -18,9 +18,16 @@ export interface DbDoc {
   // $createdAt: string,
 }
 
-export interface TimerState {
-  startTime: number,
-  taskId?: number,
+export enum TimerAction {
+  START,
+  PAUSE,
+  STOP,
+}
+
+export interface TimerTransaction {
+  action: TimerAction,
+  time: number,
+  taskId?: string,
 }
 
 export interface Accomplishment {
@@ -58,7 +65,7 @@ interface CustomPouch<T> extends PouchDB.Database<T> {
 // TODO: prepend db names with user ID or another UID
 const tasksDb = new PouchDB<Task>("tasks") as CustomPouch<Task>;
 const projectsDb = new PouchDB<Project>("projects") as CustomPouch<Project>;
-const timerDb = new PouchDB<TimerState>("timer") as CustomPouch<TimerState>;
+const timerDb = new PouchDB<TimerTransaction>("timer") as CustomPouch<TimerTransaction>;
 
 // TODO: export const taskManager = new TaskManager();  // TaskManager contains stateful functions like createTask & getAllTasks
 // TODO: or make it a namespace?
@@ -98,4 +105,39 @@ export function getAllCourses() {
 export function getAllCoursesAndProjects() {
   // TODO
   return derived([getAllProjects(), getAllCourses()], ([projects, courses]) => [...projects, ...courses]);
+}
+
+export function changeTimerState(transaction: TimerTransaction) {
+  timerDb.save(transaction);
+}
+
+/// Time since last TimerState.STOP, accounting for pause & resumes
+export async function getRunningTime() {
+  const docs = Object.values(await timerDb.all()) as TimerTransaction[];
+
+  // Go backwards to find the index of the last TimerAction.STOP
+  let startAt = docs.length - 1;
+  while (docs[startAt].action !== TimerAction.STOP)
+    startAt--;
+
+  let elapsed = 0;
+  let prevTimestamp = docs[startAt].time;
+  for (let i = startAt + 1; i<docs.length; i++) {
+    const doc = docs[i];
+    switch (doc.action) {
+      case TimerAction.START:
+        prevTimestamp = doc.time;
+        break;
+      case TimerAction.PAUSE:
+        elapsed += doc.time - prevTimestamp;
+        break;
+      case TimerAction.STOP:
+        prevTimestamp = doc.time;
+        elapsed += doc.time - prevTimestamp;
+        break;
+    }
+  }
+  elapsed += new Date().getTime() - prevTimestamp;
+
+  return elapsed / 1000;
 }

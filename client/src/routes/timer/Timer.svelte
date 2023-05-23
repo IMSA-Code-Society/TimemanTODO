@@ -1,28 +1,36 @@
 <script lang="ts">
-    import { getTask } from "../../lib/api";
-    import {sharedElementTransition} from "../../lib/transitions";
-    import Modal from "./Modal.svelte";
-    import CourseProjectSelect from "../../lib/CourseProjectSelect.svelte";
+  import {changeTimerState, getRunningTime, getTask, TimerAction} from "../../lib/api";
+  import {sharedElementTransition} from "../../lib/transitions";
+  import Modal from "./Modal.svelte";
+  import CourseProjectSelect from "../../lib/CourseProjectSelect.svelte";
 
-    export let params: {task?: string};
+  export let params: {task?: string};
 
     const [send, receive] = sharedElementTransition;
     const openTarget = new EventTarget();
     const task = getTask(params.task);
     let allocTime: number | null;
     let goal: string;
+    let isRunning = false;
     $: {
       console.log(params.task, $task);
       allocTime = $task.predictedTime || null;
       goal = $task.title;
     }
+    getRunningTime().then(time => console.log("Running time: ", time));
 
     function start() {
-
+      isRunning = !isRunning;
+      changeTimerState({action: isRunning ? TimerAction.START : TimerAction.PAUSE, time: new Date().getTime(), taskId: params.task})
     }
 
     function stop() {
+      if (!isRunning) {
+        alert("No timer is running!");
+        return;
+      }
       openTarget.dispatchEvent(new Event("open"));
+      changeTimerState({action: TimerAction.STOP, time: new Date().getTime(), taskId: params.task})
     }
 </script>
 
@@ -41,7 +49,7 @@
                 <span id="elapsed"></span>
             </form>
             <div style="display: flex;">
-                <button on:click={start} style="background: limegreen;" id="start">Start</button>
+                <button on:click={start} style="background: limegreen;" id="start">{isRunning ? "Pause" : "Start"}</button>
                 <button on:click={stop} style="background: indianred;" id="stop">Stop</button>
             </div>
         </div>
