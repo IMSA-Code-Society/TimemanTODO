@@ -89,3 +89,9 @@ button, input[type]:not([type="text"]), select {
 	background: none;
 	appearance: none;  /* Hides dropdown arrow for select elements */
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}

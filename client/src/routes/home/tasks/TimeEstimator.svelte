@@ -1,14 +1,37 @@
 <script lang="ts">
-  export let value: number = 0;
-  const pomodoroDuration = 30;
+  export let value: number;
 
-  const select = num => () => value = num * pomodoroDuration;
+  let minutes;
+  let hours;
+
+  $: value = (hours || 0) * 60 + (Number.parseInt(minutes) || 0);
+  setHrMin(value);
+
+  function setHrMin(newMinutes) {
+    if (newMinutes === 0) return;
+    hours = Math.floor(newMinutes / 60);
+    minutes = (newMinutes % 60).toString().padStart(2, '0');
+  }
+
+  function increment() {
+    const stops = [0, 5, 15, 30];
+    const stopsIndex = stops.indexOf(value);
+    if (stopsIndex !== -1 && stopsIndex !== stops.length - 1)
+      minutes = stops[stopsIndex + 1];
+    else if (value >= 30)
+      setHrMin(value + 30);
+    console.log(value);
+  }
 </script>
 
-<div style="display: flex">
-    <button on:click={select(1)}>1</button>
-    <button on:click={select(2)}>2</button>
-    <button on:click={select(3)}>3</button>
-    <button on:click={select(4)}>4</button>
-    <button on:click={select(5)}>5</button>
-</div>
+<label style="display: flex">
+    <button on:click={increment}>⏱️</button>
+    <input type="number" placeholder="hr" class="numinput" min="0" bind:value={hours} />:
+    <input type="number" placeholder="m" class="numinput" min="0" bind:value={minutes} />
+</label>
+
+<style>
+    .numinput {
+        width: 1.5em;
+    }
+</style>
