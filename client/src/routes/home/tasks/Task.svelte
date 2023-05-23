@@ -59,8 +59,8 @@
         {#if isNew}
             <div>+</div>
         {:else}
-            <input type="checkbox"/>
-            <a href="/timer/{taskData.$id}" use:link><button>Go</button></a>
+            <input type="checkbox" class="checkbox" />
+            <a href="/timer/{taskData.$id}" use:link><button>▶️</button></a>
         {/if}
         <input style="flex-grow: 99" type="text" on:input={autosuggest} value={taskData.title} placeholder={isNew ? "New task" : "Task title"} />
         <TimeEstimator bind:value={taskData.predictedTime} />
@@ -108,5 +108,10 @@
         /*appearance: revert;*/
         border: 1px solid grey;
         color: black;
+    }
+
+    .checkbox {
+        /* TODO: style better later */
+        appearance: auto;
     }
 </style>
