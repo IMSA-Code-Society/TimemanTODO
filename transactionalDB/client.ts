@@ -1,3 +1,4 @@
+// TODO: No clue why this fails
 import {io} from "socket.io-client";
 import {WSResponse, Transaction} from "./common";
 import {TypedDatabase} from "./indexedDB";
@@ -66,9 +67,12 @@ export function openDb(name: string, version?: number, onupgrade?: (db: IDBDatab
     request.onupgradeneeded = function(e) {
       // Grab a reference to the opened database
       const db = request.result;  // Instead of e.target.result which has no typing
-      if (db.version === 1)
+      if (db.version === 1) {
+        // TODO: would be nice if all object stores were within one db, but it's extra work for not much benefit
         // autoIncrement must be false to avoid key conflicts
-        db.createObjectStore(name, { keyPath: 'id', autoIncrement: false });
+        db.createObjectStore("_content", {keyPath: 'id', autoIncrement: false});
+        db.createObjectStore("_sync", {keyPath: 'id', autoIncrement: false});
+      }
       onupgrade?.(db);
     };
   });

@@ -2,6 +2,7 @@
   "name": "transactionaldb",
   "version": "1.0.0",
   "description": "Websocket transactional database",
+  "main": "client.ts",
   "scripts": {
     "start": "ts-node-dev run.ts --notify=false",
     "watch": "tsc -w --allowJs true --outDir dist --target esnext --module esnext --moduleResolution node --skipLibCheck true --esModuleInterop true index.ts",
