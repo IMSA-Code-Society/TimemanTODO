@@ -1,10 +1,11 @@
 <script lang="ts">
   export let value: number = 0;
+  const pomodoroDuration = 30;
 
-  const select = num => () => value = num;
+  const select = num => () => value = num * pomodoroDuration;
 </script>
 
-<div>
+<div style="display: flex">
     <button on:click={select(1)}>1</button>
     <button on:click={select(2)}>2</button>
     <button on:click={select(3)}>3</button>
