@@ -14,6 +14,7 @@
   }
 
   function increment() {
+    // TODO: would someone actually take time to input a 5-min task?
     const stops = [0, 5, 15, 30];
     const stopsIndex = stops.indexOf(value);
     if (stopsIndex !== -1 && stopsIndex !== stops.length - 1)

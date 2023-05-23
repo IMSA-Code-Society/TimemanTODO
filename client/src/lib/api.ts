@@ -33,6 +33,7 @@ export interface Task {
   title: string,
   description: string,
   predictedTime: number,
+  elapsedTime: number,
   projectId?: number,
   category: typeof hwTypeVocab[number],
 }

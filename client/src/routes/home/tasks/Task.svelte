@@ -11,7 +11,7 @@
 
     let hasFocus = isNew;
 
-    export let taskData: DbUpsert<Task> = {description: "", predictedTime: 0, title: "", category: "homework"};
+    export let taskData: DbUpsert<Task> = {description: "", predictedTime: 0, elapsedTime: 0, title: "", category: "homework"};
 
     function autosuggest(ev) {
         const assignment = ev.target.value;
@@ -63,7 +63,18 @@
             <a href="/timer/{taskData.$id}" use:link><button>▶️</button></a>
         {/if}
         <input style="flex-grow: 99" type="text" on:input={autosuggest} value={taskData.title} placeholder={isNew ? "New task" : "Task title"} />
-        <TimeEstimator bind:value={taskData.predictedTime} />
+        {#if isNew}
+            <TimeEstimator bind:value={taskData.predictedTime} />
+        {:else}
+            <!--
+            TODO: I realized that inputting time in non-30min increments is probably unlikely/unhelpful
+            I think keep input method same, but show with icons
+            -->
+            <span>
+                 {Math.floor(taskData.elapsedTime / 30)}⏱️/
+                {Math.max(1, Math.floor(taskData.predictedTime / 30))}⏱️
+            </span>
+        {/if}
     </div>
     <div class="flex" style="gap: 0.25em">
         <select bind:value={taskData.category}>
